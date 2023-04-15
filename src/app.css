@@ -1,3 +1,9 @@
+:root {
+    --color-background: #0e0c18;
+    --color-primary: #42486b;
+    --color-secondary: #222034;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -21,5 +27,9 @@ html, body {
     font-family: LazyFox6, serif;
     font-size: 10px;
     line-height: 5px;
-    color: #42486b;
+    color: var(--color-primary);
+}
+
+img {
+    image-rendering: pixelated;
 }
