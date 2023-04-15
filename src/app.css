@@ -1,0 +1,24 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background-color: unset;
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    border-radius: unset;
+    color: white;
+}
+
+html, body {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: black;
+    font-family: LazyFox6, serif;
+    font-size: 8px;
+    line-height: 5px;
+}
