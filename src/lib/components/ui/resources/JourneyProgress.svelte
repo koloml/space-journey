@@ -1,5 +1,5 @@
 <script lang="ts">
-	import progressArrowUrl from "@/assets/images/placeholder-icon.png";
+	import progressArrowUrl from "@/assets/images/progress-arrow.png";
 
     export let value = 0;
     export let max = 0;
@@ -44,6 +44,5 @@
 		position: absolute;
 		right: -3px;
 		top: -2px;
-		border: 1px solid var(--color-background);
 	}
 </style>
