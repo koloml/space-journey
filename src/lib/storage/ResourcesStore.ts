@@ -7,4 +7,9 @@ export interface ResourcesInfo {
     matter: number;
 }
 
-export const resourcesStore = writable<Partial<ResourcesInfo>>({});
+export const resourcesStore = writable<ResourcesInfo>({
+    integrity: 100,
+    crew: 100,
+    food: 100,
+    matter: 100,
+});
