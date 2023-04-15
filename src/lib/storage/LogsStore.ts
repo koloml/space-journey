@@ -2,10 +2,10 @@ import {writable} from "svelte/store";
 
 export interface LogEntry {
     text: string;
-    timestamp: number;
+    timestamp: string;
 }
 
 export const logsStore = writable<LogEntry[]>([{
     text: 'test',
-    timestamp: Date.now(),
+    timestamp: Date.now().toString(36),
 }]);

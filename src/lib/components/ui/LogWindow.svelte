@@ -1,18 +1,12 @@
 <script lang="ts">
-    import {type LogEntry, logsStore} from "@/lib/storage/logs";
+    import {type LogEntry, logsStore} from "@/lib/storage/LogsStore";
     import LogMessage from "@/lib/components/ui/logging/LogMessage.svelte";
-    import {getContext} from "svelte";
-    import type Game from "@/lib/game/Game";
 
     let logMessages: LogEntry[] = [];
 
     logsStore.subscribe(messages => {
-        console.log(messages);
-
         logMessages = messages;
     });
-
-    const game = getContext<Game>('game');
 </script>
 
 <nav>
@@ -21,3 +15,11 @@
 		<LogMessage message="{message.text}" timestamp="{message.timestamp}"></LogMessage>
 	{/each}
 </nav>
+
+<style>
+    nav {
+		display: flex;
+		flex-direction: column;
+		line-height: 7px;
+    }
+</style>
