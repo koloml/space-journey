@@ -3,11 +3,13 @@
 
     export let amount: string|number = 0;
 
+    let resourceUrl = new URL(`/src/assets/images/resources/${resourceType}.png`, import.meta.url);
+
     let amountPadded = parseInt(amount.toString()).toString().padStart(3, "0");
 </script>
 
 <div class="resource">
-	<img src="/assets/resources/icon-{resourceType}.png" alt="{resourceType}" class="icon">
+	<img src="{resourceUrl}" alt="{resourceType}" class="icon">
 	<span class="amount">{amountPadded}</span>
 </div>
 
@@ -18,9 +20,11 @@
     }
 
     .icon {
-        width: 5px;
-        height: 5px;
+        width: 7px;
+        height: 7px;
 		margin-right: 1px;
+		margin-top: -1px;
+		margin-bottom: -1px;
     }
 
 	.amount {

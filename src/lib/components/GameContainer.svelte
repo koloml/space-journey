@@ -45,14 +45,15 @@
 
 <style>
     main {
-        background: #0e0c18;
+		padding: 1px;
+        background: var(--color-background);
         transform-origin: center;
         display: grid;
         overflow: hidden;
         grid-template-areas: 'resources logs' 'display logs' 'display decisions';
         grid-row-gap: 1px;
         grid-column-gap: 1px;
-        grid-template-columns: 1fr 120px;
+        grid-template-columns: 1fr 100px;
         grid-template-rows: auto 1fr 40px;
     }
 

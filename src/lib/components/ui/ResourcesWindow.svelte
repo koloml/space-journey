@@ -7,8 +7,8 @@
 	<JourneyProgress value="75" max="100"></JourneyProgress>
 	<div class="counters">
 		<ResourceAmountCounter resourceType="health" amount="25"></ResourceAmountCounter>
-		<ResourceAmountCounter resourceType="crew" amount="50"></ResourceAmountCounter>
-		<ResourceAmountCounter resourceType="matter" amount="75"></ResourceAmountCounter>
+		<ResourceAmountCounter resourceType="people" amount="50"></ResourceAmountCounter>
+		<ResourceAmountCounter resourceType="materials" amount="75"></ResourceAmountCounter>
 	</div>
 </div>
 
@@ -17,19 +17,15 @@
         display: grid;
         grid-template-columns: 1fr 1fr 1fr [end];
 		position: relative;
+		padding: 1px;
     }
 
     .counters {
 		position: absolute;
         display: flex;
         flex-direction: column;
-        gap: 1px;
+        gap: 2px;
 		top: calc(100%);
-		padding: 1px 1px 0;
-    }
-
-    .counters > :global(*) {
-		padding-bottom: 1px;
-        border-bottom: 1px solid #42486b;
+		padding-top: 1px;
     }
 </style>
