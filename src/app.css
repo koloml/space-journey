@@ -8,7 +8,7 @@
     font-size: inherit;
     line-height: inherit;
     border-radius: unset;
-    color: white;
+    color: inherit;
 }
 
 html, body {
@@ -19,6 +19,7 @@ html, body {
     justify-content: center;
     background: black;
     font-family: LazyFox6, serif;
-    font-size: 8px;
+    font-size: 10px;
     line-height: 5px;
+    color: #42486b;
 }
