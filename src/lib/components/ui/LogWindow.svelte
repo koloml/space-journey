@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {type LogEntry, logsStore} from "../storage/logs";
+    import {type LogEntry, logsStore} from "../../storage/logs";
     import LogMessage from "./logging/LogMessage.svelte";
 
     let logMessages: LogEntry[] = [];
