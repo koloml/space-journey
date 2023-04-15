@@ -1,6 +1,8 @@
 <script lang="ts">
-    import {type LogEntry, logsStore} from "../../storage/logs";
-    import LogMessage from "./logging/LogMessage.svelte";
+    import {type LogEntry, logsStore} from "@/lib/storage/logs";
+    import LogMessage from "@/lib/components/ui/logging/LogMessage.svelte";
+    import {getContext} from "svelte";
+    import type Game from "@/lib/game/Game";
 
     let logMessages: LogEntry[] = [];
 
@@ -9,6 +11,8 @@
 
         logMessages = messages;
     });
+
+    const game = getContext<Game>('game');
 </script>
 
 <nav>

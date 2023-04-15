@@ -45,7 +45,7 @@
 
 <style>
     main {
-        background: #2c2f33;
+        background: #0e0c18;
         transform-origin: center;
         display: grid;
         overflow: hidden;
