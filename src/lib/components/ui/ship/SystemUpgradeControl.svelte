@@ -8,6 +8,7 @@
 
     let systemIconUrl = new URL(`/src/assets/images/sub-systems/${system}.png`, import.meta.url);
 
+    $: plusIconClassList = value >= max ? " disabled" : "";
     $: plusIconStyle = `background-image: url(${plusIconUrl})`;
     $: barStyle = `--value: ${value}; --max: ${max}; background-image: url(${segmentIconUrl})`;
     $: systemIconClassList = value > 0 ? "active" : "";
@@ -15,7 +16,8 @@
 
 <div class="control">
 	<div class="progress">
-		<div class="plus" style="{plusIconStyle}" on:click={() => value = Math.min(++value, max)}></div>
+		<div class="plus{plusIconClassList}" style="{plusIconStyle}"
+			 on:click={() => value = Math.min(++value, max)}></div>
 		<div class="bar" style="{barStyle}">
 			<div class="current"></div>
 		</div>
@@ -31,9 +33,9 @@
         object-position: left;
     }
 
-	.control img.active {
-		object-position: right;
-	}
+    .control img.active {
+        object-position: right;
+    }
 
     .progress {
         display: flex;
@@ -52,6 +54,12 @@
     .plus:hover {
         background-position-x: right;
     }
+
+	.plus.disabled {
+		opacity: 0;
+		cursor: initial;
+		pointer-events: none;
+	}
 
     .bar {
         --value: 0;

@@ -92,5 +92,7 @@
 
     .minus.disabled, .plus.disabled {
         opacity: 0;
+		cursor: initial;
+		pointer-events: none;
     }
 </style>
