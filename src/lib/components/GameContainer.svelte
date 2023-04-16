@@ -6,16 +6,14 @@
     const height = 144;
 
     // Content of the style attribute.
-    let windowStyle = '';
+    let scaleRatio = 1;
 
     // Refresh the window scale ration on the screen size change.
     function refreshScaleRatio() {
         const viewportWidth = window.innerWidth;
         const viewportHeight = window.innerHeight;
 
-        const scaleRatio = Math.min(viewportWidth / width, viewportHeight / height);
-
-        windowStyle = `transform: scale(${scaleRatio.toPrecision(4)}); width: ${width}px; height: ${height}px`;
+        scaleRatio = Math.min(viewportWidth / width, viewportHeight / height);
     }
 
     onMount(() => {
@@ -25,7 +23,9 @@
 
     onDestroy(() => {
         window.removeEventListener('resize', refreshScaleRatio);
-    })
+    });
+
+    $: windowStyle = `transform: scale(${scaleRatio.toPrecision(4)}); width: ${width}px; height: ${height}px`;
 </script>
 
 <main style="{windowStyle}">
@@ -45,7 +45,7 @@
 
 <style>
     main {
-		padding: 1px;
+        padding: 1px;
         background: var(--color-background);
         transform-origin: center;
         display: grid;
