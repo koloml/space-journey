@@ -3,6 +3,7 @@
     import SystemEnergyControl from "@/lib/components/ui/ship/SystemEnergyControl.svelte";
     import type {SystemsEnergyInfo} from "@/lib/storage/SystemsEnergyStore";
     import {systemsEnergyStore} from "@/lib/storage/SystemsEnergyStore";
+    import EnergyProductionProgress from "@/lib/components/ui/ship/EnergyProductionProgress.svelte";
 
     let systemEnergyLevels: SystemsEnergyInfo;
 
@@ -26,9 +27,10 @@
 		<div class="systems">
 			<SystemEnergyControl bind:value={systemEnergyLevels.farms} system="farm"></SystemEnergyControl>
 			<SystemEnergyControl bind:value={systemEnergyLevels.defence} system="defence"></SystemEnergyControl>
-			<SystemEnergyControl bind:value={systemEnergyLevels.generator} system="generator"></SystemEnergyControl>
 			<SystemEnergyControl bind:value={systemEnergyLevels.propulsion} system="thrusters"></SystemEnergyControl>
+			<SystemEnergyControl bind:value={systemEnergyLevels.generator} system="generator"></SystemEnergyControl>
 		</div>
+		<EnergyProductionProgress enabled={systemEnergyLevels.generator > 0}></EnergyProductionProgress>
 	</div>
 </div>
 

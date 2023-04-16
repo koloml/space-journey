@@ -1,0 +1,54 @@
+<script lang="ts">
+    import progressBackgroundUrl from '@/assets/images/energy-bar/bar-background.png';
+
+    export let enabled: string;
+
+    export let current = 0;
+
+    export let max = 100;
+
+    let backgroundStyle = `--icon-url: url(${progressBackgroundUrl})`;
+</script>
+
+<div class="progress-background{enabled ? ' enabled' : ''}" style="{backgroundStyle}">
+	<div class="bar">
+		<div class="current"></div>
+	</div>
+</div>
+
+<style>
+    .progress-background {
+        --icon-url: unset;
+
+        position: relative;
+        width: 54px;
+        height: 8px;
+        background-image: var(--icon-url);
+        background-position-y: top;
+        background-repeat: no-repeat;
+        margin-left: 1px;
+    }
+
+	.progress-background.enabled {
+		background-position-y: bottom;
+	}
+
+    .bar {
+        position: absolute;
+        border: 1px solid transparent;
+        bottom: 0;
+        left: 3px;
+        height: 5px;
+        width: 27px;
+    }
+
+    .current {
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: 10px;
+        background-color: var(--color-primary);
+        border-left: 1px solid var(--color-background)
+    }
+</style>
