@@ -1,25 +1,24 @@
 <script lang="ts">
     import minusIconUrl from '@/assets/images/minus.png';
     import plusIconUrl from '@/assets/images/plus.png';
+    import systemSegmentUrl from "@/assets/images/systems/segment.png"
 
     export let value: number;
     export let max = 2;
     export let system: string;
 
-    let minusClassList, minusStyle;
-    let plusClassList, plusStyle;
-
     $: minusClassList = value > 0 ? 'minus' : 'minus disabled';
     $: plusClassList = value < max ? 'plus' : 'plus disabled';
     $: minusStyle = `--icon-url: url(${minusIconUrl})`;
     $: plusStyle = `--icon-url: url(${plusIconUrl})`;
+    $: segmentStyle = `--icon-url: url(${systemSegmentUrl})`;
 
     let systemIconUrl = new URL(`/src/assets/images/systems/${system}.png`, import.meta.url);
 </script>
 
 <div class="control">
 	<div class="{minusClassList}" style="{minusStyle}" on:click="{() => (value = Math.max(--value, 0))}"></div>
-	<div class="state">
+	<div class="state" style="{segmentStyle}">
 		<div class="full" style="--width: {max}"></div>
 		<div class="current" style="--width: {value}"></div>
 		<img src="{systemIconUrl}" alt="{system}" class="{value === 0 ? 'disabled' : ''}">
@@ -40,27 +39,25 @@
     }
 
     .full {
-        background-image: repeating-linear-gradient(
-                to right,
-                var(--color-secondary) 0, var(--color-secondary) 2px,
-                var(--color-background) 2px, var(--color-background) 3px);
         width: calc(3px * (var(--width) + 1) - 1px);
     }
 
     .current {
-        background-image: repeating-linear-gradient(
-                to right,
-                var(--color-primary) 0, var(--color-primary) 2px,
-                var(--color-background) 2px, var(--color-background) 3px);
         width: calc(3px * (var(--width) + 1) - 1px);
+		background-position-y: bottom;
         position: absolute;
         left: 0;
         top: 0;
     }
 
     .full, .current {
+        --icon-url: unset;
+
+        background-image: var(--icon-url);
         background-repeat: repeat-x;
-        height: 3px;
+		background-position-x: 3px;
+        margin: -1px 0;
+        height: 5px;
     }
 
     .state img {
