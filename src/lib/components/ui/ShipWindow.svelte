@@ -5,8 +5,13 @@
     import {systemsEnergyStore} from "@/lib/storage/SystemsEnergyStore";
     import EnergyProductionProgress from "@/lib/components/ui/ship/EnergyProductionProgress.svelte";
     import EnergyStorageProgress from "@/lib/components/ui/ship/EnergyStorageProgress.svelte";
+    import SystemUpgradeControl from "@/lib/components/ui/ship/SystemUpgradeControl.svelte";
+    import type {SubSystemsUpgradesInfo} from "@/lib/storage/SubSystemsUpgradesStore";
+    import {subSystemsUpgradesStore} from "@/lib/storage/SubSystemsUpgradesStore";
 
-    let systemEnergyLevels: SystemsEnergyInfo;
+    let energyLevels: SystemsEnergyInfo;
+    let systemUpgrades: SubSystemsUpgradesInfo;
+
     let accumulatedEnergy = 5;
     let energyProductionProgress = 30;
 
@@ -21,20 +26,28 @@
     });
 
     systemsEnergyStore.subscribe(levels => {
-        systemEnergyLevels = levels;
+        energyLevels = levels;
+    });
+
+    subSystemsUpgradesStore.subscribe(upgrades => {
+        systemUpgrades = upgrades;
     });
 </script>
 
 <div id="ship-canvas">
 	<div class="bottom-left">
 		<div class="systems">
-			<SystemEnergyControl bind:value={systemEnergyLevels.farms} system="farm"/>
-			<SystemEnergyControl bind:value={systemEnergyLevels.defence} system="defence"/>
-			<SystemEnergyControl bind:value={systemEnergyLevels.propulsion} system="thrusters"/>
-			<SystemEnergyControl bind:value={systemEnergyLevels.generator} system="generator"/>
+			<SystemEnergyControl bind:value={energyLevels.farms} system="farm"/>
+			<SystemEnergyControl bind:value={energyLevels.defence} system="defence"/>
+			<SystemEnergyControl bind:value={energyLevels.propulsion} system="thrusters"/>
+			<SystemEnergyControl bind:value={energyLevels.generator} system="generator"/>
 		</div>
-		<EnergyProductionProgress bind:value={energyProductionProgress} enabled={systemEnergyLevels.generator > 0}/>
+		<EnergyProductionProgress bind:value={energyProductionProgress} enabled={energyLevels.generator > 0}/>
 		<EnergyStorageProgress bind:value={accumulatedEnergy} max="16"/>
+	</div>
+	<div class="bottom-right">
+		<SystemUpgradeControl bind:value={systemUpgrades.medical} max="2" system="medical-unit"/>
+		<SystemUpgradeControl bind:value={systemUpgrades.radar} max="2" system="radar"/>
 	</div>
 </div>
 
@@ -57,6 +70,14 @@
         bottom: 0;
         z-index: 1;
     }
+
+	.bottom-right {
+		position: absolute;
+		right: 0;
+		bottom: 0;
+		z-index: 1;
+		display: flex;
+	}
 
     .systems {
         display: grid;
