@@ -1,5 +1,5 @@
 <script lang="ts">
-	import progressArrowUrl from "@/assets/images/progress-arrow.png";
+	import progressArrowUrl from "@/assets/images/journey-progress/progress-arrow.png";
 
     export let value = 0;
     export let max = 0;

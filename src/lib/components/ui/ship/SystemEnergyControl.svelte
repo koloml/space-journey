@@ -1,6 +1,6 @@
 <script lang="ts">
-    import minusIconUrl from '@/assets/images/systems/minus.png';
-    import plusIconUrl from '@/assets/images/systems/plus.png';
+    import minusIconUrl from '@/assets/images/minus.png';
+    import plusIconUrl from '@/assets/images/plus.png';
 
     export let value: number;
     export let max = 2;
