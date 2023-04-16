@@ -4,8 +4,11 @@
     import type {SystemsEnergyInfo} from "@/lib/storage/SystemsEnergyStore";
     import {systemsEnergyStore} from "@/lib/storage/SystemsEnergyStore";
     import EnergyProductionProgress from "@/lib/components/ui/ship/EnergyProductionProgress.svelte";
+    import EnergyStorageProgress from "@/lib/components/ui/ship/EnergyStorageProgress.svelte";
 
     let systemEnergyLevels: SystemsEnergyInfo;
+    let accumulatedEnergy = 5;
+    let energyProductionProgress = 30;
 
     onMount(() => {
         // We're using the LittleJS engine which is always creates a canvas element in the root of the document. We
@@ -25,19 +28,20 @@
 <div id="ship-canvas">
 	<div class="bottom-left">
 		<div class="systems">
-			<SystemEnergyControl bind:value={systemEnergyLevels.farms} system="farm"></SystemEnergyControl>
-			<SystemEnergyControl bind:value={systemEnergyLevels.defence} system="defence"></SystemEnergyControl>
-			<SystemEnergyControl bind:value={systemEnergyLevels.propulsion} system="thrusters"></SystemEnergyControl>
-			<SystemEnergyControl bind:value={systemEnergyLevels.generator} system="generator"></SystemEnergyControl>
+			<SystemEnergyControl bind:value={systemEnergyLevels.farms} system="farm"/>
+			<SystemEnergyControl bind:value={systemEnergyLevels.defence} system="defence"/>
+			<SystemEnergyControl bind:value={systemEnergyLevels.propulsion} system="thrusters"/>
+			<SystemEnergyControl bind:value={systemEnergyLevels.generator} system="generator"/>
 		</div>
-		<EnergyProductionProgress enabled={systemEnergyLevels.generator > 0}></EnergyProductionProgress>
+		<EnergyProductionProgress bind:value={energyProductionProgress} enabled={systemEnergyLevels.generator > 0}/>
+		<EnergyStorageProgress bind:value={accumulatedEnergy} max="16"/>
 	</div>
 </div>
 
 <style>
     #ship-canvas {
         position: relative;
-		height: 100%;
+        height: 100%;
     }
 
     #ship-canvas > :global(canvas) {
@@ -51,7 +55,7 @@
         position: absolute;
         left: 0;
         bottom: 0;
-		z-index: 1;
+        z-index: 1;
     }
 
     .systems {
