@@ -36,7 +36,7 @@
     .state {
         height: 3px;
         position: relative;
-        margin-left: 3px;
+        margin-left: 2px;
     }
 
     .full {
