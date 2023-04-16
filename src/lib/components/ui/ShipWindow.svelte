@@ -1,18 +1,17 @@
 <script lang="ts">
     import {onMount} from "svelte";
     import SystemEnergyControl from "@/lib/components/ui/ship/SystemEnergyControl.svelte";
-    import type {SystemsEnergyInfo} from "@/lib/storage/SystemsEnergyStore";
-    import {systemsEnergyStore} from "@/lib/storage/SystemsEnergyStore";
+    import {type SystemsEnergyInfo, systemsEnergyStore} from "@/lib/storage/SystemsEnergyStore";
     import EnergyProductionProgress from "@/lib/components/ui/ship/EnergyProductionProgress.svelte";
     import EnergyStorageProgress from "@/lib/components/ui/ship/EnergyStorageProgress.svelte";
     import SystemUpgradeControl from "@/lib/components/ui/ship/SystemUpgradeControl.svelte";
-    import type {SubSystemsUpgradesInfo} from "@/lib/storage/SubSystemsUpgradesStore";
-    import {subSystemsUpgradesStore} from "@/lib/storage/SubSystemsUpgradesStore";
+    import {type SubSystemsUpgradesInfo, subSystemsUpgradesStore} from "@/lib/storage/SubSystemsUpgradesStore";
+    import {type TotalEnergyInfo, totalEnergyStore} from "@/lib/storage/TotalEnergyStore";
 
     let energyLevels: SystemsEnergyInfo;
     let systemUpgrades: SubSystemsUpgradesInfo;
+    let totalEnergy: TotalEnergyInfo;
 
-    let accumulatedEnergy = 5;
     let energyProductionProgress = 30;
 
     onMount(() => {
@@ -32,6 +31,14 @@
     subSystemsUpgradesStore.subscribe(upgrades => {
         systemUpgrades = upgrades;
     });
+
+    totalEnergyStore.subscribe(total => {
+        totalEnergy = total;
+    });
+
+    $: totalEnergyUsedByUpgrades = systemUpgrades.medical + systemUpgrades.radar;
+    $: totalEnergyUsedBySystems = energyLevels.farms + energyLevels.defence + energyLevels.propulsion + energyLevels.generator;
+    $: freeEnergyAvailable = totalEnergy.maxUnusedEnergy - totalEnergyUsedByUpgrades - totalEnergyUsedBySystems;
 </script>
 
 <div id="ship-canvas">
@@ -43,7 +50,7 @@
 			<SystemEnergyControl bind:value={energyLevels.generator} system="generator"/>
 		</div>
 		<EnergyProductionProgress bind:value={energyProductionProgress} enabled={energyLevels.generator > 0}/>
-		<EnergyStorageProgress bind:value={accumulatedEnergy} max="16"/>
+		<EnergyStorageProgress bind:value={freeEnergyAvailable} max="{totalEnergy.maxUnusedEnergy}"/>
 	</div>
 	<div class="bottom-right">
 		<SystemUpgradeControl bind:value={systemUpgrades.medical} max="2" system="medical-unit"/>
@@ -71,13 +78,13 @@
         z-index: 1;
     }
 
-	.bottom-right {
-		position: absolute;
-		right: 0;
-		bottom: 0;
-		z-index: 1;
-		display: flex;
-	}
+    .bottom-right {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        z-index: 1;
+        display: flex;
+    }
 
     .systems {
         display: grid;
