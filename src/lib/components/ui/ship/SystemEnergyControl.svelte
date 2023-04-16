@@ -43,10 +43,10 @@
     }
 
     .current {
-        width: calc(3px * (var(--width) + 1) - 1px);
+        width: calc(3px * (var(--width)) - 1px);
 		background-position-y: bottom;
         position: absolute;
-        left: 0;
+        left: 3px;
         top: 0;
     }
 
