@@ -29,9 +29,6 @@
 </script>
 
 <main style="{windowStyle}">
-	<div class="resources">
-		<slot name="resources"></slot>
-	</div>
 	<div class="display">
 		<slot name="display"></slot>
 	</div>
@@ -50,7 +47,7 @@
         transform-origin: center;
         display: grid;
         overflow: hidden;
-        grid-template-areas: 'resources logs' 'display logs' 'display decisions';
+        grid-template-areas: 'display logs' 'display logs' 'display decisions';
         grid-row-gap: 1px;
         grid-column-gap: 1px;
         grid-template-columns: 1fr 100px;

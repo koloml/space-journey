@@ -1,16 +1,22 @@
 <script lang="ts">
     import {onMount} from "svelte";
-    import SystemEnergyControl from "@/lib/components/ui/ship/SystemEnergyControl.svelte";
+    import SystemEnergyControl from "@/lib/components/ui/ship/bottom-left/SystemEnergyControl.svelte";
+    import EnergyProductionProgress from "@/lib/components/ui/ship/bottom-left/EnergyProductionProgress.svelte";
+    import EnergyStorageProgress from "@/lib/components/ui/ship/bottom-left/EnergyStorageProgress.svelte";
+    import SystemUpgradeControl from "@/lib/components/ui/ship/bottom-right/SystemUpgradeControl.svelte";
+    import JourneyProgress from "@/lib/components/ui/ship/top/JourneyProgress.svelte";
+    import ResourceAmountCounter from "@/lib/components/ui/ship/top/ResourceAmountCounter.svelte";
     import {type SystemsEnergyInfo, systemsEnergyStore} from "@/lib/storage/SystemsEnergyStore";
-    import EnergyProductionProgress from "@/lib/components/ui/ship/EnergyProductionProgress.svelte";
-    import EnergyStorageProgress from "@/lib/components/ui/ship/EnergyStorageProgress.svelte";
-    import SystemUpgradeControl from "@/lib/components/ui/ship/SystemUpgradeControl.svelte";
     import {type SubSystemsUpgradesInfo, subSystemsUpgradesStore} from "@/lib/storage/SubSystemsUpgradesStore";
     import {type TotalEnergyInfo, totalEnergyStore} from "@/lib/storage/TotalEnergyStore";
+    import {type ResourcesInfo, resourcesStore} from "@/lib/storage/ResourcesStore";
+    import {type JourneyProgressInfo, journeyProgressStore} from "@/lib/storage/JourneyProgressStore";
 
-    let energyLevels: SystemsEnergyInfo;
-    let systemUpgrades: SubSystemsUpgradesInfo;
-    let totalEnergy: TotalEnergyInfo;
+    let systemsEnergyInfo: SystemsEnergyInfo;
+    let systemUpgradesInfo: SubSystemsUpgradesInfo;
+    let totalEnergyInfo: TotalEnergyInfo;
+    let resourcesInfo: ResourcesInfo;
+    let journeyInfo: JourneyProgressInfo;
 
     let energyProductionProgress = 30;
 
@@ -40,42 +46,64 @@
         }
 
         // Wait for tileset to load or fail. Only after the image is loaded or failed to load, canvases are being
-		// created in DOM by the engine.
+        // created in DOM by the engine.
         tileImage.addEventListener('load', moveCanvasFromRoot);
         tileImage.addEventListener('error', moveCanvasFromRoot);
     });
 
-    systemsEnergyStore.subscribe(levels => {
-        energyLevels = levels;
+    systemsEnergyStore.subscribe(storage => {
+        systemsEnergyInfo = storage;
     });
 
-    subSystemsUpgradesStore.subscribe(upgrades => {
-        systemUpgrades = upgrades;
+    subSystemsUpgradesStore.subscribe(storage => {
+        systemUpgradesInfo = storage;
     });
 
-    totalEnergyStore.subscribe(total => {
-        totalEnergy = total;
+    totalEnergyStore.subscribe(storage => {
+        totalEnergyInfo = storage;
     });
 
-    $: totalEnergyUsedByUpgrades = systemUpgrades.medical + systemUpgrades.radar;
-    $: totalEnergyUsedBySystems = energyLevels.farms + energyLevels.defence + energyLevels.propulsion + energyLevels.generator;
-    $: freeEnergyAvailable = totalEnergy.maxUnusedEnergy - totalEnergyUsedByUpgrades - totalEnergyUsedBySystems;
+    resourcesStore.subscribe(storage => {
+        resourcesInfo = storage;
+    });
+
+    journeyProgressStore.subscribe(storage => {
+        journeyInfo = storage;
+    });
+
+    $: totalEnergyUsedByUpgrades = systemUpgradesInfo.medical + systemUpgradesInfo.radar;
+
+    $: totalEnergyUsedBySystems =
+        systemsEnergyInfo.farms
+        + systemsEnergyInfo.defence
+        + systemsEnergyInfo.propulsion
+        + systemsEnergyInfo.generator;
+
+    $: freeEnergyAvailable = totalEnergyInfo.maxUnusedEnergy - totalEnergyUsedByUpgrades - totalEnergyUsedBySystems;
 </script>
 
 <div id="ship-canvas">
+	<div class="top">
+		<JourneyProgress bind:value={journeyInfo.traveled} bind:max={journeyInfo.distance}/>
+		<div class="resources">
+			<ResourceAmountCounter type="health" bind:amount={resourcesInfo.integrity}/>
+			<ResourceAmountCounter type="people" bind:amount={resourcesInfo.crew}/>
+			<ResourceAmountCounter type="materials" bind:amount={resourcesInfo.matter}/>
+		</div>
+	</div>
 	<div class="bottom-left">
 		<div class="systems">
-			<SystemEnergyControl bind:value={energyLevels.farms} system="farm"/>
-			<SystemEnergyControl bind:value={energyLevels.defence} system="defence"/>
-			<SystemEnergyControl bind:value={energyLevels.propulsion} system="thrusters"/>
-			<SystemEnergyControl bind:value={energyLevels.generator} system="generator"/>
+			<SystemEnergyControl bind:value={systemsEnergyInfo.farms} system="farm"/>
+			<SystemEnergyControl bind:value={systemsEnergyInfo.defence} system="defence"/>
+			<SystemEnergyControl bind:value={systemsEnergyInfo.propulsion} system="thrusters"/>
+			<SystemEnergyControl bind:value={systemsEnergyInfo.generator} system="generator"/>
 		</div>
-		<EnergyProductionProgress bind:value={energyProductionProgress} enabled={energyLevels.generator > 0}/>
-		<EnergyStorageProgress bind:value={freeEnergyAvailable} max="{totalEnergy.maxUnusedEnergy}"/>
+		<EnergyProductionProgress bind:value={energyProductionProgress} enabled={systemsEnergyInfo.generator > 0}/>
+		<EnergyStorageProgress bind:value={freeEnergyAvailable} max="{totalEnergyInfo.maxUnusedEnergy}"/>
 	</div>
 	<div class="bottom-right">
-		<SystemUpgradeControl bind:value={systemUpgrades.medical} max="2" system="medical-unit"/>
-		<SystemUpgradeControl bind:value={systemUpgrades.radar} max="2" system="radar"/>
+		<SystemUpgradeControl bind:value={systemUpgradesInfo.medical} max="2" system="medical-unit"/>
+		<SystemUpgradeControl bind:value={systemUpgradesInfo.radar} max="2" system="radar"/>
 	</div>
 </div>
 
@@ -90,6 +118,24 @@
         left: unset !important;
         transform: unset !important;
         height: unset !important;
+    }
+
+    .top {
+        position: absolute;
+        top: -1px;
+        left: -1px;
+        right: 0;
+    }
+
+    .resources {
+        position: absolute;
+        top: 100%;
+        left: 1px;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        justify-content: flex-end;
+        padding-top: 1px;
     }
 
     .bottom-left {

@@ -9,7 +9,7 @@ export default class Game {
     constructor() {
         this._logger.log("Game created. " + Math.random().toString(36));
 
-        canvasFixedSize = vec2(156, 134);
+        canvasFixedSize = vec2(153, 142);
         cameraScale = 1;
 
         engineInit(

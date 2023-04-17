@@ -1,11 +1,11 @@
 <script lang="ts">
     let amountPadded;
 
-    export let resourceType = "image";
+    export let type = "image";
 
     export let amount: string | number = 0;
 
-    let resourceUrl = new URL(`/src/assets/images/resources/${resourceType}.png`, import.meta.url);
+    let resourceUrl = new URL(`/src/assets/images/resources/${type}.png`, import.meta.url);
 
     $: amountPadded = parseInt(amount.toString())
         .toString()
@@ -14,7 +14,7 @@
 </script>
 
 <div class="resource">
-	<img src="{resourceUrl}" alt="{resourceType}" class="icon">
+	<img src="{resourceUrl}" alt="{type}" class="icon">
 	<span class="amount">
 		<span class="padded">{amountPadded}</span>
 		{amount}
