@@ -14,14 +14,35 @@
 
     let energyProductionProgress = 30;
 
-    onMount(() => {
-        // We're using the LittleJS engine which is always creates a canvas element in the root of the document. We
-        // need to move this canvas over there.
+    /**
+     * We're using the LittleJS engine which is always creates a canvas element in the root of the document. We need to
+     * move these canvases over there.
+     */
+    function moveCanvasFromRoot() {
         document.getElementById('ship-canvas').append(
             mainCanvas,
             overlayCanvas,
             glCanvas
-        );
+        )
+    }
+
+    onMount(() => {
+        // LittleJS is using a global variable to store the image of the tileset. Sadly, they're not typed this variable
+        // correctly in typedef file, so we need to cast it to HTMLImageElement.
+        if (!(tileImage instanceof HTMLImageElement)) {
+            throw new Error("Something wrong happen with the tile image!");
+        }
+
+        // If image is already loaded, we can move them immediately.
+        if (tileImage.complete) {
+            moveCanvasFromRoot();
+            return;
+        }
+
+        // Wait for tileset to load or fail. Only after the image is loaded or failed to load, canvases are being
+		// created in DOM by the engine.
+        tileImage.addEventListener('load', moveCanvasFromRoot);
+        tileImage.addEventListener('error', moveCanvasFromRoot);
     });
 
     systemsEnergyStore.subscribe(levels => {
