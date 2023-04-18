@@ -23,10 +23,7 @@ export default class Game {
     }
 
     private _onInit() {
-        this._ship = new GenerationShip({
-            game: this,
-            position: vec2(0, 0)
-        });
+        this._ship = new GenerationShip({game: this});
     }
 
     private _onUpdate() {
