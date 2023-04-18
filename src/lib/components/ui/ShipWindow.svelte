@@ -6,19 +6,17 @@
     import SystemUpgradeControl from "@/lib/components/ui/ship/bottom-right/SystemUpgradeControl.svelte";
     import JourneyProgress from "@/lib/components/ui/ship/top/JourneyProgress.svelte";
     import ResourceAmountCounter from "@/lib/components/ui/ship/top/ResourceAmountCounter.svelte";
-    import {type SystemsEnergyInfo, systemsEnergyStore} from "@/lib/storage/SystemsEnergyStore";
     import {type SubSystemsUpgradesInfo, subSystemsUpgradesStore} from "@/lib/storage/SubSystemsUpgradesStore";
     import {type TotalEnergyInfo, totalEnergyStore} from "@/lib/storage/TotalEnergyStore";
     import {type ResourcesInfo, resourcesStore} from "@/lib/storage/ResourcesStore";
     import {type JourneyProgressInfo, journeyProgressStore} from "@/lib/storage/JourneyProgressStore";
+    import {type SystemsStatusInfo, systemsStatusStore} from "@/lib/storage/SystemsStatusStore";
 
-    let systemsEnergyInfo: SystemsEnergyInfo;
+    let systemsStatusInfo: SystemsStatusInfo;
     let systemUpgradesInfo: SubSystemsUpgradesInfo;
     let totalEnergyInfo: TotalEnergyInfo;
     let resourcesInfo: ResourcesInfo;
     let journeyInfo: JourneyProgressInfo;
-
-    let energyProductionProgress = 30;
 
     /**
      * We're using the LittleJS engine which is always creates a canvas element in the root of the document. We need to
@@ -51,8 +49,8 @@
         tileImage.addEventListener('error', moveCanvasFromRoot);
     });
 
-    systemsEnergyStore.subscribe(storage => {
-        systemsEnergyInfo = storage;
+    systemsStatusStore.subscribe(storage => {
+        systemsStatusInfo = storage;
     });
 
     subSystemsUpgradesStore.subscribe(storage => {
@@ -74,10 +72,10 @@
     $: totalEnergyUsedByUpgrades = systemUpgradesInfo.medical + systemUpgradesInfo.radar;
 
     $: totalEnergyUsedBySystems =
-        systemsEnergyInfo.farms
-        + systemsEnergyInfo.defence
-        + systemsEnergyInfo.propulsion
-        + systemsEnergyInfo.generator;
+        systemsStatusInfo.farms.energy
+        + systemsStatusInfo.defence.energy
+        + systemsStatusInfo.propulsion.energy
+        + systemsStatusInfo.generator.energy;
 
     $: freeEnergyAvailable = totalEnergyInfo.maxUnusedEnergy - totalEnergyUsedByUpgrades - totalEnergyUsedBySystems;
 </script>
@@ -93,12 +91,14 @@
 	</div>
 	<div class="bottom-left">
 		<div class="systems">
-			<SystemEnergyControl bind:value={systemsEnergyInfo.farms} system="farm"/>
-			<SystemEnergyControl bind:value={systemsEnergyInfo.defence} system="defence"/>
-			<SystemEnergyControl bind:value={systemsEnergyInfo.propulsion} system="thrusters"/>
-			<SystemEnergyControl bind:value={systemsEnergyInfo.generator} system="generator"/>
+			<SystemEnergyControl bind:value={systemsStatusInfo.farms.energy} system="farm"/>
+			<SystemEnergyControl bind:value={systemsStatusInfo.defence.energy} system="defence"/>
+			<SystemEnergyControl bind:value={systemsStatusInfo.propulsion.energy} system="thrusters"/>
+			<SystemEnergyControl bind:value={systemsStatusInfo.generator.energy} system="generator"/>
 		</div>
-		<EnergyProductionProgress bind:value={energyProductionProgress} enabled={systemsEnergyInfo.generator > 0}/>
+		<EnergyProductionProgress bind:value={totalEnergyInfo.energyProgress}
+								  bind:max={totalEnergyInfo.energyProgressMax}
+								  enabled={systemsStatusInfo.generator.energy > 0}/>
 		<EnergyStorageProgress bind:value={freeEnergyAvailable} max="{totalEnergyInfo.maxUnusedEnergy}"/>
 	</div>
 	<div class="bottom-right">
