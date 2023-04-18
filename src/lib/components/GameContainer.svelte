@@ -48,10 +48,9 @@
         display: grid;
         overflow: hidden;
         grid-template-areas: 'display logs' 'display logs' 'display decisions';
-        grid-row-gap: 1px;
         grid-column-gap: 1px;
         grid-template-columns: 1fr 100px;
-        grid-template-rows: auto 1fr 40px;
+        grid-template-rows: auto 1fr auto;
     }
 
     .resources {
@@ -63,7 +62,9 @@
     }
 
     .logs {
+		background-color: var(--color-secondary-dark);
         grid-area: logs;
+		margin: 1px;
     }
 
     .decisions {

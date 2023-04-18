@@ -9,17 +9,17 @@
     });
 </script>
 
-<nav>
-	<div>Logs</div>
+<div class="logs">
 	{#each logMessages as message}
-		<LogMessage message="{message.text}" timestamp="{message.timestamp}"></LogMessage>
+		<LogMessage message={message.text} timestamp={message.timestamp}/>
 	{/each}
-</nav>
+</div>
 
 <style>
-    nav {
-		display: flex;
-		flex-direction: column;
-		line-height: 7px;
+    .logs {
+        overflow-y: auto;
+        padding: 1px;
+        font-family: LazyFox7, serif;
+		font-size: 8px;
     }
 </style>
