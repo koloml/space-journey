@@ -11,7 +11,7 @@ export default class Logger {
     public log(message: string) {
         logsStore.update(logs => {
             logs.push({
-                timestamp: this._game.distance.toString(36),
+                timestamp: this._game.distance.toString() + ' Ly',
                 text: message,
             });
 

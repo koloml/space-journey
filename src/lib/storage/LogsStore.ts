@@ -5,7 +5,4 @@ export interface LogEntry {
     timestamp: string;
 }
 
-export const logsStore = writable<LogEntry[]>([{
-    text: 'test',
-    timestamp: Date.now().toString(36),
-}]);
+export const logsStore = writable<LogEntry[]>([]);
