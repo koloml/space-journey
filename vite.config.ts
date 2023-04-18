@@ -24,8 +24,13 @@ export default defineConfig({
                     {
                         name: 'LazyFox6',
                         src: '/src/assets/fonts/font-6.ttf',
-                        local: 'LazyFox1'
+                        local: 'LazyFox6'
                     },
+                    {
+                        name: 'LazyFox7',
+                        src: '/src/assets/fonts/font-7.ttf',
+                        local: 'LazyFox7'
+                    }
                 ]
             }
         })
