@@ -10,13 +10,29 @@ export default class Game {
     private _systemsStore = systemsStatusStore;
     private _journeyStore = journeyProgressStore;
 
+    private _distanceTraveled = 0;
     private _isPaused = false;
     private _tickInterval?: number | NodeJS.Timer;
     private _tickDuration = 100;
 
     constructor() {
-        this._logger.log("Game created. " + Math.random().toString(36));
+        this._initializeEngine();
 
+        this._tickInterval = setInterval(() => this._onTick(), this._tickDuration);
+
+        this._journeyStore.subscribe(store => {
+            this._distanceTraveled = parseFloat(store.distance.toPrecision(2));
+        });
+
+        this._logger.log("Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, blanditiis consectetur et excepturi facilis necessitatibus odio officia placeat quam ut. Alias autem corporis fugiat nesciunt quaerat, quam repudiandae veniam veritatis!");
+    }
+
+    /**
+     * Configure and start up the LittleJS engine.
+     * @private
+     */
+    private _initializeEngine() {
+        // This is fixed position and camera scale, so everything will be rendered with pixel-perfect precision.
         canvasFixedSize = vec2(153, 142);
         cameraScale = 1;
 
@@ -28,8 +44,6 @@ export default class Game {
             () => this._onRenderPost(),
             tileSetUrl
         );
-
-        this._tickInterval = setInterval(() => this._onTick(), this._tickDuration);
     }
 
     private _onInit() {
@@ -61,7 +75,7 @@ export default class Game {
     }
 
     get distance() {
-        return Date.now();
+        return this._distanceTraveled;
     }
 
     get ship(): GenerationShip {
