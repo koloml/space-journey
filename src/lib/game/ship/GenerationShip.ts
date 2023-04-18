@@ -25,6 +25,6 @@ export default class GenerationShip extends GameObject {
         this.addChild(this._generator, vec2(0, 17));
         this.addChild(this._farms, vec2(0, -31));
         this.addChild(this._thrusters, vec2(0, -51));
-        this.addChild(this._shields, vec2(0, 0));
+        this.addChild(this._shields, vec2(0, -1));
     }
 }
