@@ -2,7 +2,7 @@ import type Game from "@/lib/game/Game";
 
 export interface ParticleEmitterInit {
     game: Game,
-    pos: Vector2,
+    position: Vector2,
     angle?: number,
     emitSize?: number,
     emitTime?: number,
@@ -36,7 +36,7 @@ export default class GameParticleEmitter extends ParticleEmitter {
 
     constructor(init: ParticleEmitterInit) {
         super(
-            init.pos, init.angle, init.emitSize, init.emitTime, init.emitRate, init.emitConeAngle, init.tileIndex,
+            init.position, init.angle, init.emitSize, init.emitTime, init.emitRate, init.emitConeAngle, init.tileIndex,
             init.tileSize, init.colorStartA, init.colorStartB, init.colorEndA, init.colorEndB, init.particleTime,
             init.sizeStart, init.sizeEnd, init.speed, init.angleSpeed, init.damping, init.angleDamping,
             init.gravityScale, init.particleConeAngle, init.fadeRate, init.randomness, init.collideTiles, init.additive,
