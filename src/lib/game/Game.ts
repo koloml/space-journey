@@ -5,6 +5,7 @@ import {systemsStatusStore} from "@/lib/storage/SystemsStatusStore";
 import {journeyProgressStore} from "@/lib/storage/JourneyProgressStore";
 import {resourcesStore} from "@/lib/storage/ResourcesStore";
 import {totalEnergyStore} from "@/lib/storage/TotalEnergyStore";
+import {subSystemsUpgradesStore} from "@/lib/storage/SubSystemsUpgradesStore";
 
 export default class Game {
     private _logger = new Logger(this);
@@ -13,6 +14,7 @@ export default class Game {
     private _journeyStore = journeyProgressStore;
     private _resourcesStore = resourcesStore;
     private _energyStore = totalEnergyStore;
+    private _upgradesStore = subSystemsUpgradesStore;
 
     private _distanceTraveled = 0;
     private _isPaused = false;
@@ -104,5 +106,9 @@ export default class Game {
 
     get energy() {
         return this._energyStore;
+    }
+
+    get upgrades() {
+        return this._upgradesStore;
     }
 }
