@@ -50,7 +50,7 @@ const defaultSystemStatus = (overrides: Partial<SystemStatus> = {}): SystemStatu
     return Object.assign({
         active: true,
         energy: 2,
-        maxEnergy: 4,
+        maxEnergy: 2,
         repairCost: {},
         repairable: true
     }, overrides);
