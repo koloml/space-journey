@@ -73,8 +73,8 @@
 
     $: totalEnergyUsedBySystems =
         systemsStatusInfo.farms.energy
-        + systemsStatusInfo.defence.energy
-        + systemsStatusInfo.propulsion.energy
+        + systemsStatusInfo.shield.energy
+        + systemsStatusInfo.thrusters.energy
         + systemsStatusInfo.generator.energy;
 
     $: freeEnergyAvailable = totalEnergyInfo.maxUnusedEnergy - totalEnergyUsedByUpgrades - totalEnergyUsedBySystems;
@@ -86,15 +86,20 @@
 		<div class="resources">
 			<ResourceAmountCounter type="health" bind:amount={resourcesInfo.hull}/>
 			<ResourceAmountCounter type="people" bind:amount={resourcesInfo.crew}/>
+			<ResourceAmountCounter type="food" bind:amount={resourcesInfo.food}/>
 			<ResourceAmountCounter type="materials" bind:amount={resourcesInfo.materials}/>
 		</div>
 	</div>
 	<div class="bottom-left">
 		<div class="systems">
-			<SystemEnergyControl bind:value={systemsStatusInfo.farms.energy} system="farm"/>
-			<SystemEnergyControl bind:value={systemsStatusInfo.defence.energy} system="defence"/>
-			<SystemEnergyControl bind:value={systemsStatusInfo.propulsion.energy} system="thrusters"/>
-			<SystemEnergyControl bind:value={systemsStatusInfo.generator.energy} system="generator"/>
+			<SystemEnergyControl bind:value={systemsStatusInfo.farms.energy}
+								 bind:max={systemsStatusInfo.farms.maxEnergy} system="farm"/>
+			<SystemEnergyControl bind:value={systemsStatusInfo.shield.energy}
+								 bind:max={systemsStatusInfo.shield.maxEnergy} system="defence"/>
+			<SystemEnergyControl bind:value={systemsStatusInfo.thrusters.energy}
+								 bind:max={systemsStatusInfo.thrusters.maxEnergy} system="thrusters"/>
+			<SystemEnergyControl bind:value={systemsStatusInfo.generator.energy}
+								 bind:max={systemsStatusInfo.generator.maxEnergy} system="generator"/>
 		</div>
 		<EnergyProductionProgress bind:value={totalEnergyInfo.energyProgress}
 								  bind:max={totalEnergyInfo.energyProgressMax}
