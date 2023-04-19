@@ -3,12 +3,16 @@ import tileSetUrl from "@/assets/images/ship/ship-tilemap.png";
 import GenerationShip from "@/lib/game/ship/GenerationShip";
 import {systemsStatusStore} from "@/lib/storage/SystemsStatusStore";
 import {journeyProgressStore} from "@/lib/storage/JourneyProgressStore";
+import {resourcesStore} from "@/lib/storage/ResourcesStore";
+import {totalEnergyStore} from "@/lib/storage/TotalEnergyStore";
 
 export default class Game {
     private _logger = new Logger(this);
     private _ship?: GenerationShip;
     private _systemsStore = systemsStatusStore;
     private _journeyStore = journeyProgressStore;
+    private _resourcesStore = resourcesStore;
+    private _energyStore = totalEnergyStore;
 
     private _distanceTraveled = 0;
     private _isPaused = false;
@@ -92,5 +96,13 @@ export default class Game {
 
     get journey() {
         return this._journeyStore;
+    }
+
+    get resources() {
+        return this._resourcesStore;
+    }
+
+    get energy() {
+        return this._energyStore;
     }
 }
