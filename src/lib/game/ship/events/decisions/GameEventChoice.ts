@@ -1,20 +1,20 @@
 import type Game from "@/lib/game/Game";
 
-export interface DecisionChoiceInit {
+export interface GameEventChoiceInit {
     text: string;
     run: (game: Game) => any
 }
 
-export interface GameDecisionChoiceInit extends DecisionChoiceInit {
+export interface ClassGameEventChoiceInit extends GameEventChoiceInit {
     game: Game;
 }
 
-export default class DecisionChoice {
+export default class GameEventChoice {
     private readonly _game: Game;
     private readonly _text: string;
     private readonly _executeCallback: (game: Game) => any
 
-    constructor(init: GameDecisionChoiceInit) {
+    constructor(init: ClassGameEventChoiceInit) {
         this._game = init.game;
         this._text = init.text;
         this._executeCallback = init.run;
