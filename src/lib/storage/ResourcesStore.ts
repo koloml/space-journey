@@ -1,15 +1,15 @@
 import {writable} from "svelte/store";
 
 export interface ResourcesInfo {
-    integrity: number;
+    hull: number;
     crew: number;
-    matter: number;
     food: number;
+    materials: number;
 }
 
 export const resourcesStore = writable<ResourcesInfo>({
-    integrity: 100,
+    hull: 100,
     crew: 100,
-    matter: 100,
-    food: 100
+    food: 100,
+    materials: 100
 });

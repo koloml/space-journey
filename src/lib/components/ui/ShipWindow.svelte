@@ -84,9 +84,9 @@
 	<div class="top">
 		<JourneyProgress bind:value={journeyInfo.traveled} bind:max={journeyInfo.distance}/>
 		<div class="resources">
-			<ResourceAmountCounter type="health" bind:amount={resourcesInfo.integrity}/>
+			<ResourceAmountCounter type="health" bind:amount={resourcesInfo.hull}/>
 			<ResourceAmountCounter type="people" bind:amount={resourcesInfo.crew}/>
-			<ResourceAmountCounter type="materials" bind:amount={resourcesInfo.matter}/>
+			<ResourceAmountCounter type="materials" bind:amount={resourcesInfo.materials}/>
 		</div>
 	</div>
 	<div class="bottom-left">

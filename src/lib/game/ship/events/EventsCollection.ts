@@ -19,7 +19,7 @@ export const eventsCollection: GameEventInit[] = [
                 run: game => {
                     game.resources.update(value => {
                         value.crew -= rand(0, 5)
-                        value.matter -= 5
+                        value.materials -= 5
                         return value
                     })
                     game.logger.log("antidote")
