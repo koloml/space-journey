@@ -1,11 +1,11 @@
 <script lang="ts">
     import {onMount} from "svelte";
-    import SystemEnergyControl from "@/lib/components/ui/ship/bottom-left/SystemEnergyControl.svelte";
-    import EnergyProductionProgress from "@/lib/components/ui/ship/bottom-left/EnergyProductionProgress.svelte";
-    import EnergyStorageProgress from "@/lib/components/ui/ship/bottom-left/EnergyStorageProgress.svelte";
-    import SystemUpgradeControl from "@/lib/components/ui/ship/bottom-right/SystemUpgradeControl.svelte";
-    import JourneyProgress from "@/lib/components/ui/ship/top/JourneyProgress.svelte";
-    import ResourceAmountCounter from "@/lib/components/ui/ship/top/ResourceAmountCounter.svelte";
+    import SystemEnergyControl from "@/lib/components/game/ship/bottom-left/SystemEnergyControl.svelte";
+    import EnergyProductionProgress from "@/lib/components/game/ship/bottom-left/EnergyProductionProgress.svelte";
+    import EnergyStorageProgress from "@/lib/components/game/ship/bottom-left/EnergyStorageProgress.svelte";
+    import SystemUpgradeControl from "@/lib/components/game/ship/bottom-right/SystemUpgradeControl.svelte";
+    import JourneyProgress from "@/lib/components/game/ship/top/JourneyProgress.svelte";
+    import ResourceAmountCounter from "@/lib/components/game/ship/top/ResourceAmountCounter.svelte";
     import {type SubSystemsUpgradesInfo, subSystemsUpgradesStore} from "@/lib/storage/SubSystemsUpgradesStore";
     import {type TotalEnergyInfo, totalEnergyStore} from "@/lib/storage/TotalEnergyStore";
     import {type ResourcesInfo, resourcesStore} from "@/lib/storage/ResourcesStore";

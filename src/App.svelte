@@ -1,8 +1,8 @@
 <script lang="ts">
     import GameContainer from "@/lib/components/GameContainer.svelte";
-    import LogWindow from "@/lib/components/ui/LogWindow.svelte";
-    import ShipWindow from "@/lib/components/ui/ShipWindow.svelte";
-    import DecisionsWindow from "@/lib/components/ui/DecisionsWindow.svelte";
+    import LogWindow from "@/lib/components/game/LogWindow.svelte";
+    import ShipWindow from "@/lib/components/game/ShipWindow.svelte";
+    import DecisionsWindow from "@/lib/components/game/DecisionsWindow.svelte";
     import {onMount} from "svelte";
 
     onMount(() => {
