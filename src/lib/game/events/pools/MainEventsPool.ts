@@ -1,6 +1,6 @@
 import type {GameEventInit} from "@/lib/game/events/entities/GameEvent";
 
-export const eventsCollection: GameEventInit[] = [
+export const mainEventsPool: GameEventInit[] = [
     {
         text: "Epidemic on the ship!",
         choices: [
