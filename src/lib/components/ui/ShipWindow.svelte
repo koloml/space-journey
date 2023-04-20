@@ -78,6 +78,11 @@
         + systemsStatusInfo.generator.energy;
 
     $: freeEnergyAvailable = totalEnergyInfo.maxUnusedEnergy - totalEnergyUsedByUpgrades - totalEnergyUsedBySystems;
+
+    $: systemsStatusStore.set(systemsStatusInfo);
+    $: subSystemsUpgradesStore.set(systemUpgradesInfo);
+    $: totalEnergyStore.set(totalEnergyInfo);
+    $: resourcesStore.set(resourcesInfo);
 </script>
 
 <div id="ship-canvas">
