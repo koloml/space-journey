@@ -11,6 +11,8 @@
     import {type ResourcesInfo, resourcesStore} from "@/lib/storage/ResourcesStore";
     import {type JourneyProgressInfo, journeyProgressStore} from "@/lib/storage/JourneyProgressStore";
     import {type SystemsStatusInfo, systemsStatusStore} from "@/lib/storage/SystemsStatusStore";
+    import TooltipActivator from "@/lib/components/ui/tooltips/TooltipActivator.svelte";
+    import Tooltip from "@/lib/components/ui/tooltips/Tooltip.svelte";
 
     let systemsStatusInfo: SystemsStatusInfo;
     let systemUpgradesInfo: SubSystemsUpgradesInfo;
@@ -89,10 +91,22 @@
 	<div class="top">
 		<JourneyProgress bind:value={journeyInfo.traveled} bind:max={journeyInfo.distance}/>
 		<div class="resources">
-			<ResourceAmountCounter type="health" bind:amount={resourcesInfo.hull}/>
-			<ResourceAmountCounter type="people" bind:amount={resourcesInfo.crew}/>
-			<ResourceAmountCounter type="food" bind:amount={resourcesInfo.food}/>
-			<ResourceAmountCounter type="materials" bind:amount={resourcesInfo.materials}/>
+			<TooltipActivator>
+				<ResourceAmountCounter type="health" bind:amount={resourcesInfo.hull}/>
+				<Tooltip position="right" pointer="arrow">hull</Tooltip>
+			</TooltipActivator>
+			<TooltipActivator>
+				<ResourceAmountCounter type="people" bind:amount={resourcesInfo.crew}/>
+				<Tooltip position="right" pointer="arrow">people</Tooltip>
+			</TooltipActivator>
+			<TooltipActivator>
+				<ResourceAmountCounter type="food" bind:amount={resourcesInfo.food}/>
+				<Tooltip position="right" pointer="arrow">food</Tooltip>
+			</TooltipActivator>
+			<TooltipActivator>
+				<ResourceAmountCounter type="materials" bind:amount={resourcesInfo.materials}/>
+				<Tooltip position="right" pointer="arrow">materials</Tooltip>
+			</TooltipActivator>
 		</div>
 	</div>
 	<div class="bottom-left">
@@ -135,6 +149,7 @@
         top: -1px;
         left: -1px;
         right: 0;
+        z-index: 1;
     }
 
     .resources {
