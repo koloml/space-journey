@@ -49,8 +49,7 @@
         right: 0;
         top: 0;
         bottom: 0;
-        width: 10px;
+        width: 0;
         background-color: var(--color-primary);
-        border-left: 1px solid var(--color-background)
     }
 </style>
