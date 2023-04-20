@@ -1,4 +1,4 @@
-import GameEventChoice, {type GameEventChoiceInit} from "@/lib/game/ship/events/entities/GameEventChoice";
+import GameEventChoice, {type GameEventChoiceInit} from "@/lib/game/events/entities/GameEventChoice";
 import type Game from "@/lib/game/Game";
 
 export interface GameEventInit {
