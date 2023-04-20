@@ -7,6 +7,10 @@ import {resourcesStore} from "@/lib/storage/ResourcesStore";
 import {totalEnergyStore} from "@/lib/storage/TotalEnergyStore";
 import {subSystemsUpgradesStore} from "@/lib/storage/SubSystemsUpgradesStore";
 import StorageWrapper from "@/lib/game/stores/StorageWrapper";
+import StoryTellerController from "@/lib/game/controllers/StoryTellerController";
+import type BaseController from "@/lib/game/base/BaseController";
+import JourneyController from "@/lib/game/controllers/JourneyController";
+import ResourcesController from "@/lib/game/controllers/ResourcesController";
 
 export default class Game {
     private _logger = new Logger(this);
@@ -21,17 +25,18 @@ export default class Game {
     private _isPaused = false;
     private _tickInterval?: number | NodeJS.Timer;
     private _tickDuration = 100;
+    private _tickCounter = 0;
+
+    private _controllers: BaseController[] = [];
 
     constructor() {
         this._initializeEngine();
-
-        this._tickInterval = setInterval(() => this._onTick(), this._tickDuration);
+        this._initializeControllers();
+        this._initializeTicks();
 
         this._journeyStore.subscribe(store => {
-            this._distanceTraveled = parseFloat(store.distance.toPrecision(2));
+            this._distanceTraveled = parseFloat(store.traveled.toPrecision(2));
         });
-
-        this._logger.log("Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, blanditiis consectetur et excepturi facilis necessitatibus odio officia placeat quam ut. Alias autem corporis fugiat nesciunt quaerat, quam repudiandae veniam veritatis!");
     }
 
     /**
@@ -50,6 +55,18 @@ export default class Game {
             () => this._onRender(),
             () => this._onRenderPost(),
             tileSetUrl
+        );
+    }
+
+    private _initializeTicks() {
+        this._tickInterval = setInterval(() => this._onTick(), this._tickDuration);
+    }
+
+    private _initializeControllers() {
+        this._controllers.push(
+            new JourneyController(this),
+            new ResourcesController(this),
+            new StoryTellerController(this),
         );
     }
 
@@ -74,7 +91,9 @@ export default class Game {
     }
 
     private _onTick() {
+        this._tickCounter++;
 
+        this._controllers.forEach(controller => controller.onTick());
     }
 
     get logger() {
@@ -83,6 +102,10 @@ export default class Game {
 
     get distance() {
         return this._distanceTraveled;
+    }
+
+    get ticksPassed() {
+        return this._tickCounter;
     }
 
     get ship(): GenerationShip {
