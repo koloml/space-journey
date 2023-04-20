@@ -1,4 +1,4 @@
-import type {GameEventInit} from "@/lib/game/ship/events/decisions/GameEvent";
+import type {GameEventInit} from "@/lib/game/ship/events/entities/GameEvent";
 
 export const eventsCollection: GameEventInit[] = [
     {
