@@ -1,9 +1,14 @@
 <script lang="ts">
+    import TooltipActivator from "@/lib/components/ui/tooltips/TooltipActivator.svelte";
+    import Tooltip from "@/lib/components/ui/tooltips/Tooltip.svelte";
+
     let amountPadded;
 
     export let type = "image";
 
     export let amount: string | number = 0;
+
+    export let hint: string;
 
     let resourceUrl = new URL(`/src/assets/images/resources/${type}.png`, import.meta.url);
 
@@ -13,13 +18,18 @@
         .slice(0, 3 - amount.toString().length)
 </script>
 
-<div class="resource">
-	<img src="{resourceUrl}" alt="{type}" class="icon">
-	<span class="amount">
+<TooltipActivator>
+	<div class="resource">
+		<img src="{resourceUrl}" alt="{type}" class="icon">
+		<span class="amount">
 		<span class="padded">{amountPadded}</span>
-		{amount}
+			{amount}
 	</span>
-</div>
+	</div>
+	<Tooltip position="right" pointer="arrow">
+		{hint}
+	</Tooltip>
+</TooltipActivator>
 
 <style>
     .resource {
@@ -38,10 +48,10 @@
     .amount {
         height: 5px;
         line-height: 4px;
-		display: flex;
+        display: flex;
     }
 
-	.amount .padded {
-		color: var(--color-secondary);
-	}
+    .amount .padded {
+        color: var(--color-secondary);
+    }
 </style>
