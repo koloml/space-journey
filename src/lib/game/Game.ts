@@ -12,11 +12,12 @@ import type BaseController from "@/lib/game/base/BaseController";
 import JourneyController from "@/lib/game/controllers/JourneyController";
 import ResourcesController from "@/lib/game/controllers/ResourcesController";
 import ResourcesManager from "@/lib/game/ship/managers/ResourcesManager";
+import SystemsManager from "@/lib/game/ship/managers/SystemsManager";
 
 export default class Game {
     private _logger = new Logger(this);
     private _ship?: GenerationShip;
-    private _systemsStore = new StorageWrapper(systemsStatusStore);
+    private _systemsStore = new SystemsManager(this, new StorageWrapper(systemsStatusStore));
     private _journeyStore = new StorageWrapper(journeyProgressStore);
     private _resourcesManager = new ResourcesManager(this, new StorageWrapper(resourcesStore));
     private _energyStore = new StorageWrapper(totalEnergyStore);

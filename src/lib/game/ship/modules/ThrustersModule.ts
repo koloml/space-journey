@@ -38,7 +38,7 @@ export default class ThrustersModule extends BaseShipModule {
             );
         });
 
-        this.game.systems.subscribe(systems => this._onSystemsUpdated(systems));
+        this.game.systems.store.subscribe(systems => this._onSystemsUpdated(systems));
     }
 
     /**
