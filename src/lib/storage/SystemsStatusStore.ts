@@ -58,7 +58,13 @@ const defaultSystemStatus = (overrides: Partial<SystemStatus> = {}): SystemStatu
 
 export const systemsStatusStore = writable<SystemsStatusInfo>({
     farms: defaultSystemStatus(),
-    generator: defaultSystemStatus(),
+    generator: defaultSystemStatus({
+        energy: 3,
+        maxEnergy: 3
+    }),
     shield: defaultSystemStatus(),
-    thrusters: defaultSystemStatus(),
+    thrusters: defaultSystemStatus({
+        energy: 3,
+        maxEnergy: 3
+    }),
 })
