@@ -27,23 +27,23 @@ export interface SystemStatus {
     repairCost: Partial<ResourcesInfo>;
 }
 
-export interface SystemsStatusInfo {
+export interface SystemsStatusInfo<StatusType = SystemStatus> {
     /**
      * Status of the farm module.
      */
-    farms: SystemStatus;
+    farms: StatusType;
     /**
      * Status of the defence module.
      */
-    shield: SystemStatus;
+    shield: StatusType;
     /**
      * Status of the propulsion module.
      */
-    thrusters: SystemStatus;
+    thrusters: StatusType;
     /**
      * Status of the generator module.
      */
-    generator: SystemStatus;
+    generator: StatusType;
 }
 
 const defaultSystemStatus = (overrides: Partial<SystemStatus> = {}): SystemStatus => {
