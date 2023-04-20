@@ -7,21 +7,17 @@ export const mainEventsPool: GameEventInit[] = [
             {
                 text: "ignore",
                 run: game => {
-                    game.resources.update(value => {
-                        value.crew -= rand(5, 10)
-                        return value
-                    })
+                    game.resources
+                        .modify('crew', -rand(5, 10));
                     game.logger.log("ignore")
                 }
             },
             {
                 text: "find antidote",
                 run: game => {
-                    game.resources.update(value => {
-                        value.crew -= rand(0, 5)
-                        value.materials -= 5
-                        return value
-                    })
+                    game.resources
+                        .modify('crew', -rand(0, 5))
+                        .modify('materials', -5);
                     game.logger.log("antidote")
                 }
             }

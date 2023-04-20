@@ -11,13 +11,14 @@ import StoryTellerController from "@/lib/game/controllers/StoryTellerController"
 import type BaseController from "@/lib/game/base/BaseController";
 import JourneyController from "@/lib/game/controllers/JourneyController";
 import ResourcesController from "@/lib/game/controllers/ResourcesController";
+import ResourcesManager from "@/lib/game/ship/managers/ResourcesManager";
 
 export default class Game {
     private _logger = new Logger(this);
     private _ship?: GenerationShip;
     private _systemsStore = new StorageWrapper(systemsStatusStore);
     private _journeyStore = new StorageWrapper(journeyProgressStore);
-    private _resourcesStore = new StorageWrapper(resourcesStore);
+    private _resourcesManager = new ResourcesManager(this, new StorageWrapper(resourcesStore));
     private _energyStore = new StorageWrapper(totalEnergyStore);
     private _upgradesStore = new StorageWrapper(subSystemsUpgradesStore);
 
@@ -125,7 +126,7 @@ export default class Game {
     }
 
     get resources() {
-        return this._resourcesStore;
+        return this._resourcesManager;
     }
 
     get energy() {
