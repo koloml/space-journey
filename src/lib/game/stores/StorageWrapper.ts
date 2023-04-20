@@ -1,4 +1,4 @@
-import type {Writable} from "svelte/store";
+import type {Subscriber, Updater, Writable} from "svelte/store";
 
 /**
  * A wrapper class for a svelte store. This class will help you to get values from the store, without having to
@@ -52,7 +52,7 @@ export default class StorageWrapper<WritableType> {
      * an update for the store.
      * @param callback The callback to call and get the new values.
      */
-    public update(callback: (values: WritableType) => WritableType) {
+    public update(callback: Updater<WritableType>) {
         this._store.update(callback);
     }
 
@@ -60,7 +60,7 @@ export default class StorageWrapper<WritableType> {
      * Subscribe to changes in the store. This method is similar to the subscribe method of the svelte store.
      * @param callback The callback to call when the store is updated.
      */
-    public subscribe(callback: (values: WritableType) => void) {
+    public subscribe(callback: Subscriber<WritableType>) {
         this._store.subscribe(callback);
     }
 
