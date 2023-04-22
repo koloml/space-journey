@@ -33,7 +33,7 @@
 		</div>
 		<div class="{plusClassList}" style="{plusStyle}" on:click="{() => (value = Math.min(++value, max))}"></div>
 	</div>
-	<Tooltip pointer="arrow" position="right">{system}</Tooltip>
+	<Tooltip pointer="system" position="right">{system}</Tooltip>
 </TooltipActivator>
 
 <style>
@@ -41,6 +41,10 @@
         display: flex;
         align-items: flex-end;
     }
+
+	.control + :global(.tooltip) {
+		height: 6px;
+	}
 
     .state {
         height: 3px;

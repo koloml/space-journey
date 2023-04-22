@@ -1,6 +1,8 @@
 <script lang="ts">
     import energyBarIconUrl from "@/assets/images/energy-bar/energy.png";
     import segmentUrl from "@/assets/images/energy-bar/segment.png";
+    import TooltipActivator from "@/lib/components/ui/tooltips/TooltipActivator.svelte";
+    import Tooltip from "@/lib/components/ui/tooltips/Tooltip.svelte";
 
     export let value: number;
     export let max: number = 16;
@@ -8,12 +10,15 @@
     $: barStyle = `--icon-url: url(${segmentUrl}); --value: ${value}; --max: ${max};`;
 </script>
 
-<div class="progress">
-	<img src="{energyBarIconUrl}" alt="Energy">
-	<div class="bar" style="{barStyle}">
-		<div class="current"></div>
+<TooltipActivator>
+	<div class="progress">
+		<img src="{energyBarIconUrl}" alt="Energy">
+		<div class="bar" style="{barStyle}">
+			<div class="current"></div>
+		</div>
 	</div>
-</div>
+	<Tooltip position="right" pointer="energy">energy</Tooltip>
+</TooltipActivator>
 
 <style>
     .progress {

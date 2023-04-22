@@ -145,13 +145,12 @@
         --front-stars-layer: unset;
         --shift: 0;
 
-		--front-shift: calc(var(--shift) * 10);
-		--clouds-shift: calc(var(--shift) * 5);
+		--front-shift: calc(var(--shift) * 4);
+		--clouds-shift: calc(var(--shift) * 2);
 
         position: relative;
         height: 100%;
 
-        /* Set three backgrounds, one after another */
         background: var(--front-stars-layer) repeat-y 0 var(--front-shift) fixed,
         var(--clouds-layer) repeat-y 0 var(--clouds-shift) fixed,
         var(--space-layer) repeat-y 0 var(--shift) fixed;
@@ -180,7 +179,6 @@
         left: 1px;
         display: flex;
         flex-direction: column;
-        gap: 2px;
         justify-content: flex-end;
         padding-top: 1px;
     }

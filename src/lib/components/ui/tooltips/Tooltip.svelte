@@ -1,15 +1,33 @@
 <script lang="ts">
-	import hintArrowLeftUrl from "@/assets/images/hint-arrow.png";
+    import resourceArrowUrl from "@/assets/images/tooltips/resources.png";
+    import systemArrowUrl from "@/assets/images/tooltips/system.png";
+    	import energyArrowUrl from "@/assets/images/tooltips/energy.png";
 
     export let position: string;
     export let pointer: string;
 
+    let pointerUrl = '';
 
+    $: switch (position) {
+        case "right":
+            switch (pointer) {
+                case "resource":
+                    pointerUrl = resourceArrowUrl;
+                    break;
+                case "system":
+                    pointerUrl = systemArrowUrl;
+                    break;
+				case "energy":
+                    pointerUrl = energyArrowUrl;
+                    break;
+            }
+            break;
+    }
 </script>
 
 <div class="tooltip {position}">
-	{#if pointer === 'arrow' && position === 'right'}
-		<img src={hintArrowLeftUrl} alt="arrow">
+	{#if position === 'right' && pointerUrl}
+		<img src={pointerUrl} alt="arrow">
 	{/if}
 	<slot></slot>
 </div>
@@ -21,8 +39,8 @@
         font-family: LazyFox7, serif;
         font-size: 8px;
         line-height: 8px;
-		background-color: var(--color-background);
-		padding: 1px 0 1px 1px;
+        background-color: var(--color-background);
+        padding: 1px 0 1px 0;
     }
 
     .tooltip.right {
@@ -31,14 +49,8 @@
         bottom: 0;
     }
 
-	.tooltip.right img {
-		width: 7px;
-		height: 7px;
-		margin: -1px 0 -1px -1px;
-	}
-
-	:global(.activator:hover) .tooltip {
-		display: flex;
-		align-items: center;
-	}
+    :global(.activator:hover) .tooltip {
+        display: flex;
+        align-items: center;
+    }
 </style>

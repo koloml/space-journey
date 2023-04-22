@@ -26,7 +26,7 @@
 			{amount}
 	</span>
 	</div>
-	<Tooltip position="right" pointer="arrow">
+	<Tooltip position="right" pointer="resource">
 		{hint}
 	</Tooltip>
 </TooltipActivator>
