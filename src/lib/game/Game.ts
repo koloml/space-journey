@@ -13,6 +13,7 @@ import JourneyController from "@/lib/game/controllers/JourneyController";
 import ResourcesController from "@/lib/game/controllers/ResourcesController";
 import ResourcesManager from "@/lib/game/ship/managers/ResourcesManager";
 import SystemsManager from "@/lib/game/ship/managers/SystemsManager";
+import {activeDecisionStore} from "@/lib/storage/ActiveDecisionStore";
 
 export default class Game {
     private _logger = new Logger(this);
@@ -22,6 +23,7 @@ export default class Game {
     private _resourcesManager = new ResourcesManager(this, new StorageWrapper(resourcesStore));
     private _energyStore = new StorageWrapper(totalEnergyStore);
     private _upgradesStore = new StorageWrapper(subSystemsUpgradesStore);
+    private _decisionStore = new StorageWrapper(activeDecisionStore);
 
     private _distanceTraveled = 0;
     private _isPaused = false;
@@ -136,5 +138,9 @@ export default class Game {
 
     get upgrades() {
         return this._upgradesStore;
+    }
+
+    get decision() {
+        return this._decisionStore;
     }
 }
