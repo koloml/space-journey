@@ -83,6 +83,16 @@
     $: subSystemsUpgradesStore.set(systemUpgradesInfo);
     $: totalEnergyStore.set(totalEnergyInfo);
     $: resourcesStore.set(resourcesInfo);
+
+    /**
+     * Mapping between the system name and the icon name. Also used for iterating over all systems in specific order.
+     */
+    const systemIcons: Map<keyof SystemsStatusInfo, string> = new Map([
+        ['farms', 'farm'],
+        ['shield', 'defence'],
+        ['thrusters', 'thrusters'],
+        ['generator', 'generator']
+    ]);
 </script>
 
 <div id="ship-canvas">
@@ -97,14 +107,14 @@
 	</div>
 	<div class="bottom-left">
 		<div class="systems">
-			<SystemEnergyControl bind:value={systemsStatusInfo.farms.energy}
-								 bind:max={systemsStatusInfo.farms.maxEnergy} system="farm"/>
-			<SystemEnergyControl bind:value={systemsStatusInfo.shield.energy}
-								 bind:max={systemsStatusInfo.shield.maxEnergy} system="defence"/>
-			<SystemEnergyControl bind:value={systemsStatusInfo.thrusters.energy}
-								 bind:max={systemsStatusInfo.thrusters.maxEnergy} system="thrusters"/>
-			<SystemEnergyControl bind:value={systemsStatusInfo.generator.energy}
-								 bind:max={systemsStatusInfo.generator.maxEnergy} system="generator"/>
+			{#each Array.from(systemIcons.keys()) as key}
+				<SystemEnergyControl bind:value={systemsStatusInfo[key].energy}
+									 bind:active={systemsStatusInfo[key].active}
+									 bind:repairable={systemsStatusInfo[key].repairable}
+									 bind:cost={systemsStatusInfo[key].repairCost}
+									 bind:max={systemsStatusInfo[key].maxEnergy}
+									 system={systemIcons.get(key)}/>
+			{/each}
 		</div>
 		<EnergyProductionProgress bind:value={totalEnergyInfo.energyProgress}
 								  bind:max={totalEnergyInfo.energyProgressMax}
@@ -168,5 +178,11 @@
     .systems {
         display: grid;
         grid-row-gap: 4px;
+		width: max-content;
+    }
+
+    .systems :global(.tooltip.right) {
+		top: -2px;
+		bottom: 2px;
     }
 </style>
