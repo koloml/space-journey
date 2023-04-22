@@ -30,4 +30,8 @@ export default class GameEventChoice {
         this._game.resources.save();
         this._game.systems.save();
     }
+
+    get text() {
+        return this._text;
+    }
 }
