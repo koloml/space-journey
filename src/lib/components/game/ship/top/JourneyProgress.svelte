@@ -34,28 +34,46 @@
         height: 5px;
         display: flex;
         padding: 1px;
-        border-left: 1px solid var(--color-primary);
     }
+
+	.bar:before {
+		content: '';
+		display: block;
+		position: absolute;
+		left: 0;
+		top: -1px;
+		bottom: -1px;
+		width: 1px;
+		background-color: var(--color-primary);
+		border: 1px solid var(--color-background);
+		z-index: 1;
+	}
 
     .full {
         position: absolute;
-        height: 1px;
+        height: 3px;
         background: var(--color-secondary);
         top: 2px;
         left: 3px;
         right: 0;
         z-index: -1;
+		border: 1px solid var(--color-background);
+		margin: -1px 0;
     }
 
     .current {
         background: var(--color-primary);
         position: relative;
+		border: 1px solid var(--color-background);
+		margin: -1px 0;
+		min-width: 4px;
     }
 
     .current img {
         position: absolute;
         right: -3px;
         top: -2px;
+		z-index: 2;
     }
 
     .planet {
