@@ -11,7 +11,7 @@ export const eventsCollection: GameEventInit[] = [
                         value.crew -= rand(5, 10)
                         return value
                     })
-                    game.logger.log("ignore")
+                    game.logger.log("you ignore the epidemic on the ship")
                 }
             },
             {
@@ -22,7 +22,7 @@ export const eventsCollection: GameEventInit[] = [
                         value.matter -= 5
                         return value
                     })
-                    game.logger.log("antidote")
+                    game.logger.log("you fought the epidemic on the ship")
                 }
             }
         ]
