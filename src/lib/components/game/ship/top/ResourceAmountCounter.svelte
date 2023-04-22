@@ -35,6 +35,8 @@
     .resource {
         display: flex;
         align-items: center;
+		background-color: var(--color-background);
+		padding: 1px 0;
     }
 
     .icon {
@@ -49,6 +51,7 @@
         height: 5px;
         line-height: 4px;
         display: flex;
+		background-color: var(--color-background);
     }
 
     .amount .padded {
