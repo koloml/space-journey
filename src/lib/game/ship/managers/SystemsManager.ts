@@ -4,9 +4,8 @@ import type {SystemsStatusInfo, SystemStatus} from "@/lib/storage/SystemsStatusS
 import type StorageWrapper from "@/lib/game/stores/StorageWrapper";
 import type {ResourcesInfo} from "@/lib/storage/ResourcesStore";
 
-export default class SystemsManager<Key extends keyof SystemsStatusInfo> extends BaseManager {
+export default class SystemsManager<Key extends keyof SystemsStatusInfo> extends BaseManager<SystemsStatusInfo> {
     private _changes: Partial<SystemsStatusInfo<Partial<SystemStatus>>> = {};
-    private readonly _store: StorageWrapper<SystemsStatusInfo>;
 
     constructor(game: Game, store: StorageWrapper<SystemsStatusInfo>) {
         super(game);
@@ -63,10 +62,6 @@ export default class SystemsManager<Key extends keyof SystemsStatusInfo> extends
         }
 
         this._store.update((v) => this._deepAssign(v, this._changes));
-    }
-
-    public get store() {
-        return this._store;
     }
 
     private _deepAssign(target: any, source: any) {

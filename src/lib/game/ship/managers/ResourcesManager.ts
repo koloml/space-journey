@@ -5,18 +5,17 @@ import type Game from "@/lib/game/Game";
 
 type ResourceChangeListener = (changes: Partial<ResourcesInfo>) => any;
 
-export default class ResourcesManager extends BaseManager {
-    private _resources: StorageWrapper<ResourcesInfo>;
+export default class ResourcesManager extends BaseManager<ResourcesInfo> {
     private _changes: Partial<ResourcesInfo> = {};
     private _changesListeners = new Set<ResourceChangeListener>();
 
     constructor(game: Game, storage: StorageWrapper<ResourcesInfo>) {
         super(game);
-        this._resources = storage;
+        this._store = storage;
     }
 
     public get<Key extends keyof ResourcesInfo>(key: Key): ResourcesInfo[Key] {
-        return this._resources.get(key);
+        return this._store.get(key);
     }
 
     public set<Key extends keyof ResourcesInfo>(key: Key, value: ResourcesInfo[Key], isRaw = false) {
@@ -55,7 +54,7 @@ export default class ResourcesManager extends BaseManager {
         }
 
         Array.from(this._changesListeners).forEach(listener => listener(this._changes));
-        this._resources.update((v) => Object.assign(v, this._changes));
+        this._store.update((v) => Object.assign(v, this._changes));
 
         this._changes = {};
     }
