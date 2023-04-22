@@ -11,6 +11,9 @@
     import {type ResourcesInfo, resourcesStore} from "@/lib/storage/ResourcesStore";
     import {type JourneyProgressInfo, journeyProgressStore} from "@/lib/storage/JourneyProgressStore";
     import {type SystemsStatusInfo, systemsStatusStore, type SystemStatus} from "@/lib/storage/SystemsStatusStore";
+    import spaceLayerUrl from "@/assets/images/background/layer-1.png";
+    import cloudsLayerUrl from "@/assets/images/background/layer-2.png";
+    import frontStarsLayerUrl from "@/assets/images/background/layer-3.png";
 
     let systemsStatusInfo: SystemsStatusInfo;
     let systemUpgradesInfo: SubSystemsUpgradesInfo;
@@ -84,6 +87,13 @@
     $: totalEnergyStore.set(totalEnergyInfo);
     $: resourcesStore.set(resourcesInfo);
 
+    $: canvasBackgroundStyle =
+        `--space-layer: url(${spaceLayerUrl});` +
+        `--clouds-layer: url(${cloudsLayerUrl});` +
+        `--front-stars-layer: url(${frontStarsLayerUrl});`;
+    $: canvasShiftStyle = `--shift: ${journeyInfo.traveled.toFixed(2)}px;`;
+    $: resultShipCanvasStyle = `${canvasBackgroundStyle} ${canvasShiftStyle}`;
+
     /**
      * Mapping between the system name and the icon name. Also used for iterating over all systems in specific order.
      */
@@ -95,7 +105,7 @@
     ]);
 </script>
 
-<div id="ship-canvas">
+<div id="ship-canvas" style={resultShipCanvasStyle}>
 	<div class="top">
 		<JourneyProgress bind:value={journeyInfo.traveled} bind:max={journeyInfo.distance}/>
 		<div class="resources">
@@ -130,8 +140,23 @@
 
 <style>
     #ship-canvas {
+        --space-layer: unset;
+        --clouds-layer: unset;
+        --front-stars-layer: unset;
+        --shift: 0;
+
+		--front-shift: calc(var(--shift) * 10);
+		--clouds-shift: calc(var(--shift) * 5);
+
         position: relative;
         height: 100%;
+
+        /* Set three backgrounds, one after another */
+        background: var(--front-stars-layer) repeat-y 0 var(--front-shift) fixed,
+        var(--clouds-layer) repeat-y 0 var(--clouds-shift) fixed,
+        var(--space-layer) repeat-y 0 var(--shift) fixed;
+
+		transition: background-position 0.5s ease-in-out;
     }
 
     #ship-canvas > :global(canvas) {
@@ -178,11 +203,11 @@
     .systems {
         display: grid;
         grid-row-gap: 4px;
-		width: max-content;
+        width: max-content;
     }
 
     .systems :global(.tooltip.right) {
-		top: -2px;
-		bottom: 2px;
+        top: -2px;
+        bottom: 2px;
     }
 </style>
