@@ -10,7 +10,7 @@
     import {type TotalEnergyInfo, totalEnergyStore} from "@/lib/storage/TotalEnergyStore";
     import {type ResourcesInfo, resourcesStore} from "@/lib/storage/ResourcesStore";
     import {type JourneyProgressInfo, journeyProgressStore} from "@/lib/storage/JourneyProgressStore";
-    import {type SystemsStatusInfo, systemsStatusStore} from "@/lib/storage/SystemsStatusStore";
+    import {type SystemsStatusInfo, systemsStatusStore, type SystemStatus} from "@/lib/storage/SystemsStatusStore";
 
     let systemsStatusInfo: SystemsStatusInfo;
     let systemUpgradesInfo: SubSystemsUpgradesInfo;
@@ -69,16 +69,16 @@
         journeyInfo = storage;
     });
 
-    $: totalEnergyUsedByUpgrades = systemUpgradesInfo.medical + systemUpgradesInfo.radar;
-
-    $: totalEnergyUsedBySystems =
-        systemsStatusInfo.farms.energy
-        + systemsStatusInfo.shield.energy
-        + systemsStatusInfo.thrusters.energy
-        + systemsStatusInfo.generator.energy;
-
+    // Calculating the energy consumption & total amount of available energy
+    $: totalEnergyUsedByUpgrades = Object
+        .values(systemUpgradesInfo)
+        .reduce((sumEnergy: number, energy: number) => sumEnergy + energy, 0);
+    $: totalEnergyUsedBySystems = Object
+        .values(systemsStatusInfo)
+        .reduce((sumEnergy: number, system: SystemStatus) => sumEnergy + system.energy, 0);
     $: freeEnergyAvailable = totalEnergyInfo.maxUnusedEnergy - totalEnergyUsedByUpgrades - totalEnergyUsedBySystems;
 
+    // Updating the store every time they're changed by the UI
     $: systemsStatusStore.set(systemsStatusInfo);
     $: subSystemsUpgradesStore.set(systemUpgradesInfo);
     $: totalEnergyStore.set(totalEnergyInfo);
