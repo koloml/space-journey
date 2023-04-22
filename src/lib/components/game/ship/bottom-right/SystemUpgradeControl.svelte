@@ -69,7 +69,10 @@
         background-position: bottom left;
         background-repeat: repeat-y;
         width: 5px;
-        height: calc(3px * var(--max) - 1px);
+        height: calc(3px * var(--max) + 1px);
+		border-bottom: 1px solid var(--color-background);
+		background-color: var(--color-background);
+		margin-bottom: -1px;
     }
 
     .current {

@@ -49,7 +49,7 @@
     }
 
     .full {
-        width: calc(3px * (var(--width) + 1) - 1px);
+        width: calc(3px * (var(--width) + 1));
     }
 
     .current {

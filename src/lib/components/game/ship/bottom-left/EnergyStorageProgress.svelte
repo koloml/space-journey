@@ -26,7 +26,9 @@
 		--max: 16;
 
         position: relative;
-        width: calc(3px * var(--max) - 1px);
+        width: calc(3px * var(--max) + 1px);
+		border-left: 1px solid var(--color-background);
+		margin-left: -1px;
     }
 
     .current {
