@@ -4,7 +4,10 @@ import SecondaryExhaustEmitter from "@/lib/game/ship/modules/thrusters/Secondary
 import type {SystemsStatusInfo} from "@/lib/storage/SystemsStatusStore";
 
 export default class ThrustersModule extends BaseShipModule {
-    tileIndex = 48;
+    protected _baseTileIndex = 48;
+    protected _system: keyof SystemsStatusInfo = 'thrusters';
+
+    tileIndex = this._baseTileIndex;
     tileSize = vec2(32, 32);
     size = vec2(32, 32);
 
@@ -47,14 +50,29 @@ export default class ThrustersModule extends BaseShipModule {
      * @private
      */
     private _onSystemsUpdated(systems: SystemsStatusInfo) {
-        console.log('Updated', systems);
+        // This method might be called before the exhaust emitters are initialized.
+        if (!this._exhaustEmitters)
+            return;
 
         const thrusters = systems.thrusters;
+        const damageOffset = this.tileIndex - this._baseTileIndex;
 
-        this._exhaustEmitters.forEach(emitter => {
+        this._exhaustEmitters.forEach((emitter, index) => {
             emitter.scale(thrusters.energy / thrusters.maxEnergy);
-            emitter.toggle(thrusters.active);
+            emitter.toggle(thrusters.active && this._exhaustEmitters.length - index > damageOffset);
         })
+    }
+
+    /**
+     * Update the module and the exhaust emitters.
+     * @override This method is overridden in order for both exhaust emitters and the module itself to be updated.
+     * @protected
+     */
+    protected _onStateChange() {
+        super._onStateChange();
+
+        // Trigger an update of the exhaust emitters.
+        this._onSystemsUpdated(this.game.systems.store.values);
     }
 
     get exhaust() {
