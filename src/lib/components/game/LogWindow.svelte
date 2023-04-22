@@ -1,6 +1,6 @@
 <script lang="ts">
     import {type LogEntry, logsStore} from "@/lib/storage/LogsStore";
-    import LogMessage from "@/lib/components/ui/logging/LogMessage.svelte";
+    import LogMessage from "@/lib/components/game/logging/LogMessage.svelte";
 
     let logMessages: LogEntry[] = [];
 

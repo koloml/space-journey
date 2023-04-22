@@ -1,16 +1,16 @@
 <script lang="ts">
     import {onMount} from "svelte";
-    import SystemEnergyControl from "@/lib/components/ui/ship/bottom-left/SystemEnergyControl.svelte";
-    import EnergyProductionProgress from "@/lib/components/ui/ship/bottom-left/EnergyProductionProgress.svelte";
-    import EnergyStorageProgress from "@/lib/components/ui/ship/bottom-left/EnergyStorageProgress.svelte";
-    import SystemUpgradeControl from "@/lib/components/ui/ship/bottom-right/SystemUpgradeControl.svelte";
-    import JourneyProgress from "@/lib/components/ui/ship/top/JourneyProgress.svelte";
-    import ResourceAmountCounter from "@/lib/components/ui/ship/top/ResourceAmountCounter.svelte";
+    import SystemEnergyControl from "@/lib/components/game/ship/bottom-left/SystemEnergyControl.svelte";
+    import EnergyProductionProgress from "@/lib/components/game/ship/bottom-left/EnergyProductionProgress.svelte";
+    import EnergyStorageProgress from "@/lib/components/game/ship/bottom-left/EnergyStorageProgress.svelte";
+    import SystemUpgradeControl from "@/lib/components/game/ship/bottom-right/SystemUpgradeControl.svelte";
+    import JourneyProgress from "@/lib/components/game/ship/top/JourneyProgress.svelte";
+    import ResourceAmountCounter from "@/lib/components/game/ship/top/ResourceAmountCounter.svelte";
     import {type SubSystemsUpgradesInfo, subSystemsUpgradesStore} from "@/lib/storage/SubSystemsUpgradesStore";
     import {type TotalEnergyInfo, totalEnergyStore} from "@/lib/storage/TotalEnergyStore";
     import {type ResourcesInfo, resourcesStore} from "@/lib/storage/ResourcesStore";
     import {type JourneyProgressInfo, journeyProgressStore} from "@/lib/storage/JourneyProgressStore";
-    import {type SystemsStatusInfo, systemsStatusStore} from "@/lib/storage/SystemsStatusStore";
+    import {type SystemsStatusInfo, systemsStatusStore, type SystemStatus} from "@/lib/storage/SystemsStatusStore";
 
     let systemsStatusInfo: SystemsStatusInfo;
     let systemUpgradesInfo: SubSystemsUpgradesInfo;
@@ -69,32 +69,42 @@
         journeyInfo = storage;
     });
 
-    $: totalEnergyUsedByUpgrades = systemUpgradesInfo.medical + systemUpgradesInfo.radar;
-
-    $: totalEnergyUsedBySystems =
-        systemsStatusInfo.farms.energy
-        + systemsStatusInfo.defence.energy
-        + systemsStatusInfo.propulsion.energy
-        + systemsStatusInfo.generator.energy;
-
+    // Calculating the energy consumption & total amount of available energy
+    $: totalEnergyUsedByUpgrades = Object
+        .values(systemUpgradesInfo)
+        .reduce((sumEnergy: number, energy: number) => sumEnergy + energy, 0);
+    $: totalEnergyUsedBySystems = Object
+        .values(systemsStatusInfo)
+        .reduce((sumEnergy: number, system: SystemStatus) => sumEnergy + system.energy, 0);
     $: freeEnergyAvailable = totalEnergyInfo.maxUnusedEnergy - totalEnergyUsedByUpgrades - totalEnergyUsedBySystems;
+
+    // Updating the store every time they're changed by the UI
+    $: systemsStatusStore.set(systemsStatusInfo);
+    $: subSystemsUpgradesStore.set(systemUpgradesInfo);
+    $: totalEnergyStore.set(totalEnergyInfo);
+    $: resourcesStore.set(resourcesInfo);
 </script>
 
 <div id="ship-canvas">
 	<div class="top">
 		<JourneyProgress bind:value={journeyInfo.traveled} bind:max={journeyInfo.distance}/>
 		<div class="resources">
-			<ResourceAmountCounter type="health" bind:amount={resourcesInfo.integrity}/>
-			<ResourceAmountCounter type="people" bind:amount={resourcesInfo.crew}/>
-			<ResourceAmountCounter type="materials" bind:amount={resourcesInfo.matter}/>
+			<ResourceAmountCounter type="health" bind:amount={resourcesInfo.hull} hint="hull"/>
+			<ResourceAmountCounter type="people" bind:amount={resourcesInfo.crew} hint="people"/>
+			<ResourceAmountCounter type="food" bind:amount={resourcesInfo.food} hint="food"/>
+			<ResourceAmountCounter type="materials" bind:amount={resourcesInfo.materials} hint="materials"/>
 		</div>
 	</div>
 	<div class="bottom-left">
 		<div class="systems">
-			<SystemEnergyControl bind:value={systemsStatusInfo.farms.energy} system="farm"/>
-			<SystemEnergyControl bind:value={systemsStatusInfo.defence.energy} system="defence"/>
-			<SystemEnergyControl bind:value={systemsStatusInfo.propulsion.energy} system="thrusters"/>
-			<SystemEnergyControl bind:value={systemsStatusInfo.generator.energy} system="generator"/>
+			<SystemEnergyControl bind:value={systemsStatusInfo.farms.energy}
+								 bind:max={systemsStatusInfo.farms.maxEnergy} system="farm"/>
+			<SystemEnergyControl bind:value={systemsStatusInfo.shield.energy}
+								 bind:max={systemsStatusInfo.shield.maxEnergy} system="defence"/>
+			<SystemEnergyControl bind:value={systemsStatusInfo.thrusters.energy}
+								 bind:max={systemsStatusInfo.thrusters.maxEnergy} system="thrusters"/>
+			<SystemEnergyControl bind:value={systemsStatusInfo.generator.energy}
+								 bind:max={systemsStatusInfo.generator.maxEnergy} system="generator"/>
 		</div>
 		<EnergyProductionProgress bind:value={totalEnergyInfo.energyProgress}
 								  bind:max={totalEnergyInfo.energyProgressMax}
@@ -102,6 +112,7 @@
 		<EnergyStorageProgress bind:value={freeEnergyAvailable} max="{totalEnergyInfo.maxUnusedEnergy}"/>
 	</div>
 	<div class="bottom-right">
+		<SystemUpgradeControl bind:value={systemUpgradesInfo.repair} max="2" system="repair-unit"/>
 		<SystemUpgradeControl bind:value={systemUpgradesInfo.medical} max="2" system="medical-unit"/>
 		<SystemUpgradeControl bind:value={systemUpgradesInfo.radar} max="2" system="radar"/>
 	</div>
@@ -125,6 +136,7 @@
         top: -1px;
         left: -1px;
         right: 0;
+        z-index: 1;
     }
 
     .resources {

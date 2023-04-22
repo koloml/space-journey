@@ -22,5 +22,12 @@ export default class GameEventChoice {
 
     public execute() {
         this._executeCallback(this._game);
+
+        this._saveChangesWhenNeeded();
+    }
+
+    private _saveChangesWhenNeeded() {
+        this._game.resources.save();
+        this._game.systems.save();
     }
 }

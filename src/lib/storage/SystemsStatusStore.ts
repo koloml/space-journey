@@ -27,30 +27,30 @@ export interface SystemStatus {
     repairCost: Partial<ResourcesInfo>;
 }
 
-export interface SystemsStatusInfo {
+export interface SystemsStatusInfo<StatusType = SystemStatus> {
     /**
      * Status of the farm module.
      */
-    farms: SystemStatus;
+    farms: StatusType;
     /**
      * Status of the defence module.
      */
-    defence: SystemStatus;
+    shield: StatusType;
     /**
      * Status of the propulsion module.
      */
-    propulsion: SystemStatus;
+    thrusters: StatusType;
     /**
      * Status of the generator module.
      */
-    generator: SystemStatus;
+    generator: StatusType;
 }
 
 const defaultSystemStatus = (overrides: Partial<SystemStatus> = {}): SystemStatus => {
     return Object.assign({
         active: true,
-        energy: 3,
-        maxEnergy: 3,
+        energy: 2,
+        maxEnergy: 2,
         repairCost: {},
         repairable: true
     }, overrides);
@@ -58,7 +58,13 @@ const defaultSystemStatus = (overrides: Partial<SystemStatus> = {}): SystemStatu
 
 export const systemsStatusStore = writable<SystemsStatusInfo>({
     farms: defaultSystemStatus(),
-    generator: defaultSystemStatus(),
-    defence: defaultSystemStatus(),
-    propulsion: defaultSystemStatus(),
+    generator: defaultSystemStatus({
+        energy: 3,
+        maxEnergy: 3
+    }),
+    shield: defaultSystemStatus(),
+    thrusters: defaultSystemStatus({
+        energy: 3,
+        maxEnergy: 3
+    }),
 })
