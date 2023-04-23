@@ -133,9 +133,9 @@
 		<EnergyStorageProgress bind:value={freeEnergyAvailable} max="{totalEnergyInfo.maxUnusedEnergy}"/>
 	</div>
 	<div class="bottom-right">
-		<SystemUpgradeControl bind:value={systemUpgradesInfo.repair} max="2" system="repair-unit"/>
-		<SystemUpgradeControl bind:value={systemUpgradesInfo.medical} max="2" system="medical-unit"/>
-		<SystemUpgradeControl bind:value={systemUpgradesInfo.radar} max="2" system="radar"/>
+		<SystemUpgradeControl bind:value={systemUpgradesInfo.repair} max="2" icon="repair-unit" hint="repairs"/>
+		<SystemUpgradeControl bind:value={systemUpgradesInfo.medical} max="2" icon="medical-unit" hint="medical"/>
+		<SystemUpgradeControl bind:value={systemUpgradesInfo.radar} max="2" icon="radar" hint="radar"/>
 	</div>
 </div>
 

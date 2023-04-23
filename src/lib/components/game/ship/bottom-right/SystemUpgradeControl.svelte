@@ -1,12 +1,15 @@
 <script lang="ts">
     import plusIconUrl from "@/assets/images/plus.png";
     import segmentIconUrl from "@/assets/images/sub-systems/segment.png";
+    import TooltipActivator from "@/lib/components/ui/tooltips/TooltipActivator.svelte";
+    import Tooltip from "@/lib/components/ui/tooltips/Tooltip.svelte";
 
-    export let system: string;
+    export let icon: string;
     export let value: number;
     export let max = 2;
+	export let hint: string;
 
-    let systemIconUrl = new URL(`/src/assets/images/sub-systems/${system}.png`, import.meta.url);
+    let systemIconUrl = new URL(`/src/assets/images/sub-systems/${icon}.png`, import.meta.url);
 
     $: plusIconClassList = value >= max ? " disabled" : "";
     $: plusIconStyle = `background-image: url(${plusIconUrl})`;
@@ -14,16 +17,19 @@
     $: systemIconClassList = value > 0 ? "active" : "";
 </script>
 
-<div class="control">
-	<div class="progress">
-		<div class="plus{plusIconClassList}" style="{plusIconStyle}"
-			 on:click={() => value = Math.min(++value, max)}></div>
-		<div class="bar" style="{barStyle}">
-			<div class="current"></div>
+<TooltipActivator>
+	<div class="control">
+		<div class="progress">
+			<div class="plus{plusIconClassList}" style="{plusIconStyle}"
+				 on:click={() => value = Math.min(++value, max)}></div>
+			<div class="bar" style="{barStyle}">
+				<div class="current"></div>
+			</div>
 		</div>
+		<img src="{systemIconUrl}" alt="{icon}" class="{systemIconClassList}">
 	</div>
-	<img src="{systemIconUrl}" alt="{system}" class="{systemIconClassList}">
-</div>
+	<Tooltip position="top-right" pointer="upgrades">{hint}</Tooltip>
+</TooltipActivator>
 
 <style>
     .control img {
@@ -55,11 +61,11 @@
         background-position-x: right;
     }
 
-	.plus.disabled {
-		opacity: 0;
-		cursor: initial;
-		pointer-events: none;
-	}
+    .plus.disabled {
+        opacity: 0;
+        cursor: initial;
+        pointer-events: none;
+    }
 
     .bar {
         --value: 0;
@@ -70,9 +76,9 @@
         background-repeat: repeat-y;
         width: 5px;
         height: calc(3px * var(--max) + 1px);
-		border-bottom: 1px solid var(--color-background);
-		background-color: var(--color-background);
-		margin-bottom: -1px;
+        border-bottom: 1px solid var(--color-background);
+        background-color: var(--color-background);
+        margin-bottom: -1px;
     }
 
     .current {
@@ -84,4 +90,8 @@
         right: 0;
         height: calc(3px * var(--value) - 1px);
     }
+
+	.control + :global(.tooltip) {
+		width: max-content;
+	}
 </style>
