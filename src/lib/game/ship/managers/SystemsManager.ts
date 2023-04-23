@@ -63,7 +63,18 @@ export default class SystemsManager<Key extends keyof SystemsStatusInfo> extends
             return;
         }
 
+        const energyChange = this._calculateEnergyWithdrawal();
+
         this._store.update((v) => this._deepAssign(v, this._changes));
+
+        if (energyChange < 0) {
+            this._game.energy.update(energy => {
+                energy.totalEnergy += energyChange;
+                return energy;
+            });
+        }
+
+        this._changes = {};
     }
 
     private _deepAssign(target: any, source: any) {
@@ -87,5 +98,35 @@ export default class SystemsManager<Key extends keyof SystemsStatusInfo> extends
         Object.entries(repairCost).forEach(([resource, amount]) => {
             this._game.resources.modify(resource as keyof ResourcesInfo, -amount);
         });
+    }
+
+    /**
+     * Calculate the amount of energy to withdraw from total energy store.
+     * @private
+     */
+    private _calculateEnergyWithdrawal() {
+        let energyChange = 0;
+
+        Object.entries(this._changes).forEach(([key, system]) => {
+            const systemBefore = this.get(key as Key);
+
+            if ('active' in system) {
+                if (systemBefore.active !== system.active) {
+                    let energy;
+
+                    if ('energy' in system) {
+                        energy = system.energy;
+                    } else {
+                        energy = systemBefore.energy;
+                    }
+
+                    energyChange -= energy;
+
+                    system.energy = 0;
+                }
+            }
+        });
+
+        return energyChange;
     }
 }
