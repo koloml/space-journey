@@ -1,4 +1,4 @@
-import BaseManager from "@/lib/game/ship/base/BaseManager";
+import BaseManager from "@/lib/game/base/BaseManager";
 import type StorageWrapper from "@/lib/game/stores/StorageWrapper";
 import type {ResourcesInfo} from "@/lib/storage/ResourcesStore";
 import type Game from "@/lib/game/Game";
