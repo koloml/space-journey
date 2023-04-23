@@ -79,7 +79,7 @@
     $: totalEnergyUsedBySystems = Object
         .values(systemsStatusInfo)
         .reduce((sumEnergy: number, system: SystemStatus) => sumEnergy + system.energy, 0);
-    $: freeEnergyAvailable = totalEnergyInfo.maxUnusedEnergy - totalEnergyUsedByUpgrades - totalEnergyUsedBySystems;
+    $: freeEnergyAvailable = totalEnergyInfo.totalEnergy - totalEnergyUsedByUpgrades - totalEnergyUsedBySystems;
 
     // Updating the store every time they're changed by the UI
     $: systemsStatusStore.set(systemsStatusInfo);
