@@ -129,7 +129,7 @@
 		</div>
 		<EnergyProductionProgress bind:value={totalEnergyInfo.energyProgress}
 								  bind:max={totalEnergyInfo.energyProgressMax}
-								  enabled={systemsStatusInfo.generator.energy > 0}/>
+								  enabled={systemsStatusInfo.generator.energy > 0 && systemsStatusInfo.generator.active}/>
 		<EnergyStorageProgress bind:value={freeEnergyAvailable} max="{totalEnergyInfo.maxUnusedEnergy}"/>
 	</div>
 	<div class="bottom-right">
@@ -146,8 +146,8 @@
         --front-stars-layer: unset;
         --shift: 0;
 
-		--front-shift: calc(var(--shift) * 4);
-		--clouds-shift: calc(var(--shift) * 2);
+        --front-shift: calc(var(--shift) * 4);
+        --clouds-shift: calc(var(--shift) * 2);
 
         position: relative;
         height: 100%;
@@ -156,7 +156,7 @@
         var(--clouds-layer) repeat-y 0 var(--clouds-shift) fixed,
         var(--space-layer) repeat-y 0 var(--shift) fixed;
 
-		transition: background-position 0.5s ease-in-out;
+        transition: background-position 0.5s ease-in-out;
     }
 
     #ship-canvas > :global(canvas) {
