@@ -123,7 +123,8 @@
 									 bind:repairable={systemsStatusInfo[key].repairable}
 									 bind:cost={systemsStatusInfo[key].repairCost}
 									 bind:max={systemsStatusInfo[key].maxEnergy}
-									 system={systemIcons.get(key)}/>
+									 icon={systemIcons.get(key)}
+									 system={key}/>
 			{/each}
 		</div>
 		<EnergyProductionProgress bind:value={totalEnergyInfo.energyProgress}
