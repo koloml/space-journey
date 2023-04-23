@@ -8,7 +8,37 @@ export default class ResourcesController extends BaseController {
     }
 
     onTick() {
+        this._generateEnergy();
+    }
 
+    /**
+     * Generate additional energy from generator.
+     * @private
+     */
+    private _generateEnergy() {
+        const generatorState = this._game.systems.get('generator');
+
+        if (!generatorState.active || !generatorState.energy) {
+            return;
+        }
+
+        let energyProgress = this._game.energy.get('energyProgress') + generatorState.energy;
+
+        this._game.energy.update(store => {
+            store.energyProgress = energyProgress;
+
+            if (store.energyProgress >= store.energyProgressMax) {
+                if (store.totalEnergy >= store.maxUnusedEnergy) {
+                    store.energyProgress = store.energyProgressMax;
+                    return store;
+                }
+
+                store.energyProgress = 0;
+                store.totalEnergy += 1;
+            }
+
+            return store;
+        });
     }
 
     private _onResourcesChanged(changes) {
