@@ -8,8 +8,8 @@ export interface TotalEnergyInfo {
 }
 
 export const totalEnergyStore = writable<TotalEnergyInfo>({
-    totalEnergy: 16,
+    totalEnergy: 6,
     maxUnusedEnergy: 16,
     energyProgress: 0,
-    energyProgressMax: 100
+    energyProgressMax: 500
 })

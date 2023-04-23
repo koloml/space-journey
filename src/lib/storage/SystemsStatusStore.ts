@@ -49,7 +49,7 @@ export interface SystemsStatusInfo<StatusType = SystemStatus> {
 const defaultSystemStatus = (overrides: Partial<SystemStatus> = {}): SystemStatus => {
     return Object.assign({
         active: true,
-        energy: 2,
+        energy: 1,
         maxEnergy: 2,
         repairCost: {},
         repairable: true
@@ -59,12 +59,10 @@ const defaultSystemStatus = (overrides: Partial<SystemStatus> = {}): SystemStatu
 export const systemsStatusStore = writable<SystemsStatusInfo>({
     farms: defaultSystemStatus(),
     generator: defaultSystemStatus({
-        energy: 3,
         maxEnergy: 3
     }),
     shield: defaultSystemStatus(),
     thrusters: defaultSystemStatus({
-        energy: 3,
         maxEnergy: 3
     }),
 })
