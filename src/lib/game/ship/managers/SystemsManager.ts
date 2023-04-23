@@ -25,13 +25,15 @@ export default class SystemsManager<Key extends keyof SystemsStatusInfo> extends
     }
 
     public repair(key: Key) {
+        this._withdrawResourcesForRepair(this.store.get(key).repairCost);
+
         this._changes[key] = this._changes[key] || {};
         this._changes[key].active = true;
 
         return this;
     }
 
-    public repairCost(key: Key, cost: Partial<ResourcesInfo>) {
+    public setRepairCost(key: Key, cost: Partial<ResourcesInfo>) {
         this._changes[key] = this._changes[key] || {};
         this._changes[key].repairCost = cost;
 
@@ -73,5 +75,17 @@ export default class SystemsManager<Key extends keyof SystemsStatusInfo> extends
 
         Object.assign(target || {}, source);
         return target;
+    }
+
+    /**
+     * Withdraw the resources from the storage for the repair. This method will not update the storage info, make sure
+     * to call the save method afterward.
+     * @param repairCost Cost of the repair.
+     * @private
+     */
+    private _withdrawResourcesForRepair(repairCost: Partial<ResourcesInfo>) {
+        Object.entries(repairCost).forEach(([resource, amount]) => {
+            this._game.resources.modify(resource as keyof ResourcesInfo, -amount);
+        });
     }
 }
