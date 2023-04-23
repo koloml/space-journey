@@ -11,8 +11,8 @@ import StoryTellerController from "@/lib/game/controllers/StoryTellerController"
 import type BaseController from "@/lib/game/base/BaseController";
 import JourneyController from "@/lib/game/controllers/JourneyController";
 import ResourcesController from "@/lib/game/controllers/ResourcesController";
-import ResourcesManager from "@/lib/game/ship/managers/ResourcesManager";
-import SystemsManager from "@/lib/game/ship/managers/SystemsManager";
+import ResourcesManager from "@/lib/game/managers/ResourcesManager";
+import SystemsManager from "@/lib/game/managers/SystemsManager";
 import {activeDecisionStore} from "@/lib/storage/ActiveDecisionStore";
 
 export default class Game {
