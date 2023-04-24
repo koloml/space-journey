@@ -44,7 +44,7 @@ export default class ResourcesManager extends BaseManager<ResourcesInfo> {
      * @param isRaw If true, the value will be saved as is, without any modifications.
      */
     public modify<Key extends keyof ResourcesInfo>(key: Key, modifyBy: ResourcesInfo[Key], isRaw = false) {
-        const currentValue = this._changes[key] ? this._changes[key] : this.get(key);
+        const currentValue = key in this._changes ? this._changes[key] : this.get(key);
         this._changes[key] = this._modifyChange(key, currentValue + modifyBy, isRaw);
 
         return this;
@@ -69,7 +69,7 @@ export default class ResourcesManager extends BaseManager<ResourcesInfo> {
         switch (key) {
             case "crew":
                 const medicalUpgrade = this._game.upgrades.get('medical');
-                changeBy = Math.round(changeBy / medicalUpgrade + 1);
+                changeBy = Math.round(changeBy / (medicalUpgrade + 1));
                 break;
         }
 
