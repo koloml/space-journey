@@ -9,7 +9,7 @@
 		<div class="text">{event.text}</div>
 		<div class="choices">
 			{#each event.choices as choice}
-				<div class="choice">{choice.text}</div>
+				<div class="choice" on:click={() => choice.execute()}>{choice.text}</div>
 			{/each}
 		</div>
 	</div>
