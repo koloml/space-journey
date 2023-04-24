@@ -17,6 +17,7 @@ export default class GameEvent {
     private readonly _text: string;
 
     constructor(init: ClassGameEventInit) {
+        this._game = init.game;
         this._text = init.text;
         this._choices = (init.choices || [])
             .map(
