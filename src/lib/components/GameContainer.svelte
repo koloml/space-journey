@@ -38,6 +38,7 @@
 	<div class="decisions">
 		<slot name="decisions"></slot>
 	</div>
+	<slot name="main"></slot>
 </main>
 
 <style>
@@ -51,6 +52,7 @@
         grid-column-gap: 1px;
         grid-template-columns: 1fr 100px;
         grid-template-rows: auto 1fr auto;
+        position: relative;
     }
 
     .resources {
@@ -62,9 +64,9 @@
     }
 
     .logs {
-		background-color: var(--color-secondary-dark);
+        background-color: var(--color-secondary-dark);
         grid-area: logs;
-		margin: 1px;
+        margin: 1px;
     }
 
     .decisions {

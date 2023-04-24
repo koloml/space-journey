@@ -26,7 +26,7 @@ export default class Game {
     private _decisionStore = new StorageWrapper(activeDecisionStore);
 
     private _distanceTraveled = 0;
-    private _isPaused = false;
+    private _isPaused = true;
     private _tickInterval?: number | NodeJS.Timer;
     private _tickDuration = 100;
     private _tickCounter = 0;
@@ -155,5 +155,9 @@ export default class Game {
         }
 
         this._tickInterval = setInterval(() => this._onTick(), this._tickDuration);
+    }
+
+    public startNewGame() {
+        // TODO Implement game resetting logic
     }
 }

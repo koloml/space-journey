@@ -26,7 +26,7 @@ html, body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: black;
+    background: var(--color-background) !important;
     font-family: LazyFox6, serif;
     font-size: 10px;
     line-height: 5px;
