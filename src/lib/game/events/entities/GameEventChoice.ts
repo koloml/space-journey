@@ -1,4 +1,5 @@
 import type Game from "@/lib/game/Game";
+import {activeDecisionStore} from "@/lib/storage/ActiveDecisionStore";
 
 export interface GameEventChoiceInit {
     text: string;
@@ -24,6 +25,7 @@ export default class GameEventChoice {
         this._executeCallback(this._game);
 
         this._saveChangesWhenNeeded();
+        this._clearEvent();
     }
 
     private _saveChangesWhenNeeded() {
@@ -33,5 +35,13 @@ export default class GameEventChoice {
 
     get text() {
         return this._text;
+    }
+
+    private _clearEvent() {
+        activeDecisionStore.set({
+            decision: null
+        });
+
+        this._game.resume();
     }
 }
