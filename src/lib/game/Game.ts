@@ -1,11 +1,14 @@
 import Logger from "@/lib/game/utils/Logger";
 import tileSetUrl from "@/assets/images/ship/ship-tilemap.png";
 import GenerationShip from "@/lib/game/ship/GenerationShip";
-import {systemsStatusStore} from "@/lib/storage/SystemsStatusStore";
-import {journeyProgressStore} from "@/lib/storage/JourneyProgressStore";
-import {resourcesStore} from "@/lib/storage/ResourcesStore";
-import {totalEnergyStore} from "@/lib/storage/TotalEnergyStore";
-import {subSystemsUpgradesStore} from "@/lib/storage/SubSystemsUpgradesStore";
+import {createDefaultSystemsStatusInfo, systemsStatusStore} from "@/lib/storage/SystemsStatusStore";
+import {createDefaultResourcesInfo, resourcesStore} from "@/lib/storage/ResourcesStore";
+import {createDefaultTotalEnergyInfo, totalEnergyStore} from "@/lib/storage/TotalEnergyStore";
+import {createDefaultSubSystemsUpgradesInfo, subSystemsUpgradesStore} from "@/lib/storage/SubSystemsUpgradesStore";
+import {createDefaultJourneyProgressInfo, journeyProgressStore} from "@/lib/storage/JourneyProgressStore";
+import {activeDecisionStore, createDefaultActiveDecisionInfo} from "@/lib/storage/ActiveDecisionStore";
+import {activeZoneStore, createDefaultActiveZoneInfo} from "@/lib/storage/ActiveZoneStore";
+import {createDefaultLogsInfo, logsStore} from "@/lib/storage/LogsStore";
 import StorageWrapper from "@/lib/game/stores/StorageWrapper";
 import StoryTellerController from "@/lib/game/controllers/StoryTellerController";
 import type BaseController from "@/lib/game/base/BaseController";
@@ -13,7 +16,6 @@ import JourneyController from "@/lib/game/controllers/JourneyController";
 import ResourcesController from "@/lib/game/controllers/ResourcesController";
 import ResourcesManager from "@/lib/game/managers/ResourcesManager";
 import SystemsManager from "@/lib/game/managers/SystemsManager";
-import {activeDecisionStore} from "@/lib/storage/ActiveDecisionStore";
 
 export default class Game {
     private _logger = new Logger(this);
@@ -54,10 +56,10 @@ export default class Game {
 
         engineInit(
             () => this._onInit(),
-            () => this._onUpdate(),
-            () => this._onUpdatePost(),
-            () => this._onRender(),
-            () => this._onRenderPost(),
+            () => null,
+            () => null,
+            () => null,
+            () => null,
             tileSetUrl
         );
     }
@@ -76,22 +78,6 @@ export default class Game {
 
     private _onInit() {
         this._ship = new GenerationShip({game: this});
-    }
-
-    private _onUpdate() {
-
-    }
-
-    private _onUpdatePost() {
-
-    }
-
-    private _onRender() {
-
-    }
-
-    private _onRenderPost() {
-
     }
 
     private _onTick() {
@@ -158,6 +144,13 @@ export default class Game {
     }
 
     public startNewGame() {
-        // TODO Implement game resetting logic
+        activeDecisionStore.set(createDefaultActiveDecisionInfo());
+        activeZoneStore.set(createDefaultActiveZoneInfo());
+        journeyProgressStore.set(createDefaultJourneyProgressInfo());
+        logsStore.set(createDefaultLogsInfo());
+        resourcesStore.set(createDefaultResourcesInfo());
+        subSystemsUpgradesStore.set(createDefaultSubSystemsUpgradesInfo());
+        systemsStatusStore.set(createDefaultSystemsStatusInfo());
+        totalEnergyStore.set(createDefaultTotalEnergyInfo());
     }
 }

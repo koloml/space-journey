@@ -5,6 +5,10 @@ export interface ActiveZoneInfo {
     zone: BaseZone | null;
 }
 
-export const activeZoneStore = writable<ActiveZoneInfo>({
+export const createDefaultActiveZoneInfo = (): ActiveZoneInfo => ({
     zone: null
-})
+});
+
+export const activeZoneStore = writable<ActiveZoneInfo>(
+    createDefaultActiveZoneInfo()
+)

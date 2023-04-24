@@ -6,8 +6,12 @@ export interface SubSystemsUpgradesInfo {
     repair: number
 }
 
-export const subSystemsUpgradesStore = writable<SubSystemsUpgradesInfo>({
+export const createDefaultSubSystemsUpgradesInfo = (): SubSystemsUpgradesInfo => ({
     medical: 0,
     radar: 0,
     repair: 0
 });
+
+export const subSystemsUpgradesStore = writable<SubSystemsUpgradesInfo>(
+    createDefaultSubSystemsUpgradesInfo()
+);

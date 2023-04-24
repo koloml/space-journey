@@ -5,6 +5,10 @@ export interface ActiveDecisionInfo {
     decision: GameEvent | null;
 }
 
-export const activeDecisionStore = writable<ActiveDecisionInfo>({
+export const createDefaultActiveDecisionInfo = (): ActiveDecisionInfo => ({
     decision: null
 });
+
+export const activeDecisionStore = writable<ActiveDecisionInfo>(
+    createDefaultActiveDecisionInfo()
+);

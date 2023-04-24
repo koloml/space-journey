@@ -5,7 +5,11 @@ export interface JourneyProgressInfo {
     traveled: number;
 }
 
-export const journeyProgressStore = writable<JourneyProgressInfo>({
+export const createDefaultJourneyProgressInfo = (): JourneyProgressInfo => ({
     distance: 100,
-    traveled: 1,
+    traveled: 0,
 });
+
+export const journeyProgressStore = writable<JourneyProgressInfo>(
+    createDefaultJourneyProgressInfo()
+);

@@ -7,9 +7,13 @@ export interface ResourcesInfo {
     materials: number;
 }
 
-export const resourcesStore = writable<ResourcesInfo>({
+export const createDefaultResourcesInfo = (): ResourcesInfo => ({
     hull: 100,
     crew: 100,
     food: 100,
     materials: 100
 });
+
+export const resourcesStore = writable<ResourcesInfo>(
+    createDefaultResourcesInfo()
+);

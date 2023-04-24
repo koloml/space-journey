@@ -7,4 +7,8 @@ export interface LogEntry {
     resources?: Partial<ResourcesInfo>;
 }
 
-export const logsStore = writable<LogEntry[]>([]);
+export const createDefaultLogsInfo = (): LogEntry[] => [];
+
+export const logsStore = writable<LogEntry[]>(
+    createDefaultLogsInfo()
+);

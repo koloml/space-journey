@@ -56,7 +56,7 @@ const defaultSystemStatus = (overrides: Partial<SystemStatus> = {}): SystemStatu
     }, overrides);
 }
 
-export const systemsStatusStore = writable<SystemsStatusInfo>({
+export const createDefaultSystemsStatusInfo = (): SystemsStatusInfo => ({
     farms: defaultSystemStatus(),
     generator: defaultSystemStatus({
         maxEnergy: 3
@@ -66,3 +66,7 @@ export const systemsStatusStore = writable<SystemsStatusInfo>({
         maxEnergy: 3
     }),
 })
+
+export const systemsStatusStore = writable<SystemsStatusInfo>(
+    createDefaultSystemsStatusInfo()
+);
