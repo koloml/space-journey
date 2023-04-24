@@ -19,6 +19,7 @@
     export let active: boolean = true;
     export let repairable: boolean = true;
     export let cost: Partial<ResourcesInfo> = {};
+    export let available: number;
 
     const game: Game = getContext('game');
 
@@ -26,8 +27,10 @@
 
     resourcesStore.subscribe(store => resources = store);
 
+    $: haveSpareEnergy = available > 0;
+
     $: minusClassList = value > 0 && active ? 'minus' : 'minus disabled';
-    $: plusClassList = value < max && active ? 'plus' : 'plus disabled';
+    $: plusClassList = value < max && active && haveSpareEnergy ? 'plus' : 'plus disabled';
     $: minusStyle = `--icon-url: url(${minusIconUrl})`;
     $: plusStyle = `--icon-url: url(${plusIconUrl})`;
     $: segmentStyle = `--icon-url: url(${systemSegmentUrl})`;

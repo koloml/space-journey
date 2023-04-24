@@ -11,6 +11,7 @@
     import {type ResourcesInfo, resourcesStore} from "@/lib/storage/ResourcesStore";
     import {type JourneyProgressInfo, journeyProgressStore} from "@/lib/storage/JourneyProgressStore";
     import {type SystemsStatusInfo, systemsStatusStore, type SystemStatus} from "@/lib/storage/SystemsStatusStore";
+    import {type ActiveZoneInfo, activeZoneStore} from "@/lib/storage/ActiveZoneStore";
     import spaceLayerUrl from "@/assets/images/background/layer-1.png";
     import cloudsLayerUrl from "@/assets/images/background/layer-2.png";
     import frontStarsLayerUrl from "@/assets/images/background/layer-3.png";
@@ -20,6 +21,7 @@
     let totalEnergyInfo: TotalEnergyInfo;
     let resourcesInfo: ResourcesInfo;
     let journeyInfo: JourneyProgressInfo;
+    let zoneInfo: ActiveZoneInfo;
 
     /**
      * We're using the LittleJS engine which is always creates a canvas element in the root of the document. We need to
@@ -52,25 +54,12 @@
         tileImage.addEventListener('error', moveCanvasFromRoot);
     });
 
-    systemsStatusStore.subscribe(storage => {
-        systemsStatusInfo = storage;
-    });
-
-    subSystemsUpgradesStore.subscribe(storage => {
-        systemUpgradesInfo = storage;
-    });
-
-    totalEnergyStore.subscribe(storage => {
-        totalEnergyInfo = storage;
-    });
-
-    resourcesStore.subscribe(storage => {
-        resourcesInfo = storage;
-    });
-
-    journeyProgressStore.subscribe(storage => {
-        journeyInfo = storage;
-    });
+    systemsStatusStore.subscribe(storage => systemsStatusInfo = storage);
+    subSystemsUpgradesStore.subscribe(storage => systemUpgradesInfo = storage);
+    totalEnergyStore.subscribe(storage => totalEnergyInfo = storage);
+    resourcesStore.subscribe(storage => resourcesInfo = storage);
+    journeyProgressStore.subscribe(storage => journeyInfo = storage);
+    activeZoneStore.subscribe(storage => zoneInfo = storage);
 
     // Calculating the energy consumption & total amount of available energy
     $: totalEnergyUsedByUpgrades = Object
@@ -87,12 +76,24 @@
     $: totalEnergyStore.set(totalEnergyInfo);
     $: resourcesStore.set(resourcesInfo);
 
+    $: zoneBackgroundStyle = zoneInfo.zone
+        ? zoneInfo.zone.background
+            .slice(0, Math.min(2, zoneInfo.zone.background.length))
+            .map((url, index) => `--zone-layer-${index}: url(${url})`)
+            .join('')
+        : '';
+    $: zoneShiftRates = zoneInfo.zone
+        ? zoneInfo.zone.backgroundShitRates
+            .slice(0, Math.min(2, zoneInfo.zone.background.length))
+            .map((rate, index) => `--zone-shift-${index}: ${rate}`)
+            .join('')
+        : '';
     $: canvasBackgroundStyle =
         `--space-layer: url(${spaceLayerUrl});` +
         `--clouds-layer: url(${cloudsLayerUrl});` +
         `--front-stars-layer: url(${frontStarsLayerUrl});`;
     $: canvasShiftStyle = `--shift: ${journeyInfo.traveled.toFixed(2)}px;`;
-    $: resultShipCanvasStyle = `${canvasBackgroundStyle} ${canvasShiftStyle}`;
+    $: resultShipCanvasStyle = `${canvasBackgroundStyle} ${canvasShiftStyle} ${zoneBackgroundStyle}`;
 
     /**
      * Mapping between the system name and the icon name. Also used for iterating over all systems in specific order.
@@ -123,6 +124,7 @@
 									 bind:repairable={systemsStatusInfo[key].repairable}
 									 bind:cost={systemsStatusInfo[key].repairCost}
 									 bind:max={systemsStatusInfo[key].maxEnergy}
+									 bind:available={freeEnergyAvailable}
 									 icon={systemIcons.get(key)}
 									 system={key}/>
 			{/each}
