@@ -17,11 +17,29 @@ export default class SystemsManager<Key extends keyof SystemsStatusInfo> extends
         return this._store.get(key);
     }
 
+    /**
+     * Destroy the selected system.
+     * @param key
+     */
     public destroy(key: Key) {
         this._changes[key] = this._changes[key] || {};
         this._changes[key].active = false;
 
         return this;
+    }
+
+    /**
+     * Destroy a random system.
+     */
+    public destroyRandom() {
+        const activeSystems = Object.keys(this._store.values)
+            .filter(key => this._store.get(key as keyof SystemsStatusInfo).active);
+
+        if (!activeSystems.length)
+            return this;
+
+        const randomKey = activeSystems[Math.floor(Math.random() * activeSystems.length)] as Key;
+        return this.destroy(randomKey);
     }
 
     public repair(key: Key) {
