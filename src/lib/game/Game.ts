@@ -38,7 +38,6 @@ export default class Game {
     constructor() {
         this._initializeEngine();
         this._initializeControllers();
-        this._initializeTicks();
 
         this._journeyStore.subscribe(store => {
             this._distanceTraveled = parseFloat(store.traveled.toPrecision(2));
@@ -62,10 +61,6 @@ export default class Game {
             () => null,
             tileSetUrl
         );
-    }
-
-    private _initializeTicks() {
-        this._tickInterval = setInterval(() => this._onTick(), this._tickDuration);
     }
 
     private _initializeControllers() {
@@ -152,5 +147,8 @@ export default class Game {
         subSystemsUpgradesStore.set(createDefaultSubSystemsUpgradesInfo());
         systemsStatusStore.set(createDefaultSystemsStatusInfo());
         totalEnergyStore.set(createDefaultTotalEnergyInfo());
+
+        this._tickCounter = 0;
+        this.resume();
     }
 }
