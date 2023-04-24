@@ -67,9 +67,28 @@
         background-color: var(--color-secondary-dark);
         grid-area: logs;
         margin: 1px;
+        overflow-y: scroll;
+        /* Scroll-bar is very huge, since we're scaling up the original-sized window. This line will disable the scroll
+		   bar on the FireFox browsers. */
+        scrollbar-width: none;
+    }
+
+    /* This line will disable the scroll-bar on the Chrome & Safari browsers, at least in the most modern ones. */
+    .logs::-webkit-scrollbar {
+        display: none;
     }
 
     .decisions {
         grid-area: decisions;
+        /* Yeah, pixelated shadow. I'm not sure if there is a better way to do this. */
+        box-shadow: 0 -1px 0 rgba(14, 12, 24, 0.9),
+        0 -2px 0 rgba(14, 12, 24, 0.8),
+        0 -3px 0 rgba(14, 12, 24, 0.7),
+        0 -4px 0 rgba(14, 12, 24, 0.6),
+        0 -5px 0 rgba(14, 12, 24, 0.5),
+        0 -6px 0 rgba(14, 12, 24, 0.4),
+        0 -7px 0 rgba(14, 12, 24, 0.3),
+        0 -8px 0 rgba(14, 12, 24, 0.2),
+        0 -9px 0 rgba(14, 12, 24, 0.1);
     }
 </style>

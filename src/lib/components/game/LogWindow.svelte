@@ -17,9 +17,11 @@
 
 <style>
     .logs {
-        overflow-y: auto;
         padding: 1px;
         font-family: LazyFox7, serif;
 		font-size: 8px;
+		display: flex;
+		flex-direction: column-reverse;
+		gap: 1px;
     }
 </style>

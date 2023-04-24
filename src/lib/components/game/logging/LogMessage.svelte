@@ -9,8 +9,9 @@
 
 <style>
 	.message {
-		background-color: var(--color-secondary);
-		padding: 2px 1px 1px;
+		background-color: var(--color-background);
+		padding: 1px 1px 0;
 		line-height: 7px;
+		word-break: break-word;
 	}
 </style>
