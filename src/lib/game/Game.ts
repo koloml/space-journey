@@ -143,4 +143,17 @@ export default class Game {
     get decision() {
         return this._decisionStore;
     }
+
+    public pause() {
+        clearInterval(this._tickInterval as number);
+        this._tickInterval = null;
+    }
+
+    public resume() {
+        if (this._tickInterval) {
+            clearInterval(this._tickInterval as number);
+        }
+
+        this._tickInterval = setInterval(() => this._onTick(), this._tickDuration);
+    }
 }
