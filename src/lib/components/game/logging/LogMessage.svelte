@@ -11,7 +11,7 @@
 	.message {
 		background-color: var(--color-background);
 		padding: 1px 1px 0;
-		line-height: 7px;
+		line-height: 5px;
 		word-break: break-word;
 	}
 </style>
