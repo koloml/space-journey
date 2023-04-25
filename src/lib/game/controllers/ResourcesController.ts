@@ -1,4 +1,5 @@
 import BaseController from "@/lib/game/base/BaseController";
+import type {ResourcesInfo} from "@/lib/storage/ResourcesStore";
 
 export default class ResourcesController extends BaseController {
     constructor(game) {
@@ -106,8 +107,49 @@ export default class ResourcesController extends BaseController {
         });
     }
 
-    private _onResourcesChanged(changes) {
-        // TODO Make a special message with the icons and amount of resources changed.
-        this._game.logger.log("Resources changed: " + JSON.stringify(changes));
+    /**
+     * Print the information about the changes in key resources. Message will be displayed in the following format:
+     * "Gain 10 food, 5 energy, 1 crew, lost 1 hull.". If there is no changes, the message will not be displayed.
+     * Gain displayed first, and after that the lost. Resources will be grouped by the change.
+     * @param updatedValues Values of the resources that were changed and their new value. These values are not saved
+     * in the store yet, so difference can be calculated using the existing values.
+     * @private
+     */
+    private _onResourcesChanged(updatedValues: Partial<ResourcesInfo>) {
+        const losses = [];
+        const gains = [];
+
+        Object.keys(updatedValues).forEach((key: keyof ResourcesInfo) => {
+            const updatedValue = updatedValues[key];
+            const currentValue = this._game.resources.get(key);
+
+            if (updatedValue === currentValue) {
+                return;
+            }
+
+            if (updatedValue > currentValue) {
+                gains.push(`+${updatedValue - currentValue} ${key}`);
+            }
+
+            if (updatedValue < currentValue) {
+                losses.push(`${currentValue - updatedValue} ${key}`);
+            }
+        });
+
+        if (gains.length === 0 && losses.length === 0) {
+            return;
+        }
+
+        let message = '';
+
+        if (gains.length > 0) {
+            message += `Gain ${gains.join(', ')}. `;
+        }
+
+        if (losses.length > 0) {
+            message += `Lost ${losses.join(', ')}. `;
+        }
+
+        this._game.logger.log(message.trim());
     }
 }
