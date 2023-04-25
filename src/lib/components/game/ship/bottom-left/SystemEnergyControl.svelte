@@ -19,6 +19,7 @@
     export let repairable: boolean = true;
     export let cost: Partial<ResourcesInfo> = {};
     export let available: number;
+    export let paused: boolean;
 
     const game: Game = getContext('game');
 
@@ -28,8 +29,8 @@
 
     $: haveSpareEnergy = available > 0;
 
-    $: minusClassList = value > 0 && active ? 'minus' : 'minus disabled';
-    $: plusClassList = value < max && active && haveSpareEnergy ? 'plus' : 'plus disabled';
+    $: minusClassList = value > 0 && active && !paused ? 'minus' : 'minus disabled';
+    $: plusClassList = value < max && active && haveSpareEnergy && !paused ? 'plus' : 'plus disabled';
     $: minusStyle = `--icon-url: url(${minusIconUrl})`;
     $: plusStyle = `--icon-url: url(${plusIconUrl})`;
     $: segmentStyle = `--icon-url: url(${systemSegmentUrl})`;
