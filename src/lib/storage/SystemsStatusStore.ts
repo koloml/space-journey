@@ -51,7 +51,9 @@ const defaultSystemStatus = (overrides: Partial<SystemStatus> = {}): SystemStatu
         active: true,
         energy: 1,
         maxEnergy: 2,
-        repairCost: {},
+        repairCost: {
+            materials: 5
+        },
         repairable: true
     }, overrides);
 }
