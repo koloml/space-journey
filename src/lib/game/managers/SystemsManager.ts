@@ -76,21 +76,21 @@ export default class SystemsManager<Key extends keyof SystemsStatusInfo> extends
      * Discharge energy from the system and from the total energy store.
      * @param key System key.
      * @param amount Amount of energy to discharge. Default is 1.
-     * @return True if the energy was discharged, false if there is no enough energy to discharge.
+     * @return True if there was enough energy to discharge, false otherwise. Energy will be discharged anyway.
      */
     public discharge(key: Key, amount = 1) {
-        if (this.get(key).energy < amount)
-            return false;
+        const hadEnoughEnergy = this.get(key).energy < amount;
+        const amountToDischarge = Math.min(this.get(key).energy, amount);
 
-        this.energy(key, this.get(key).energy - amount);
+        this.energy(key, this.get(key).energy - amountToDischarge);
 
         // Discharge energy from the total energy store.
         this._game.energy.update(energy => {
-            energy.totalEnergy -= amount;
+            energy.totalEnergy -= amountToDischarge;
             return energy;
         });
 
-        return true;
+        return hadEnoughEnergy;
     }
 
     private _isChanged() {
