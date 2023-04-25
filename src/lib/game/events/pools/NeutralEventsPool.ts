@@ -31,7 +31,7 @@ export const neutralEventsPool: GameEventInit[] = [
         ]
     },
     {
-        text: "Near the wreckage of some ship.",
+        text: "Sir! Near the wreckage of some ship.",
         choices: [
             {
                 text: "Search resources",
