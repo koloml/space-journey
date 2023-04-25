@@ -100,7 +100,7 @@
     $: resultShipCanvasStyle = `${canvasBackgroundStyle} ${canvasShiftStyle} ${zoneBackgroundStyle}`;
     $: isPaused = eventInfo.decision !== null;
 
-    $: systemUpgradesDisabled = isPaused || !freeEnergyAvailable;
+    $: systemUpgradesDisabled = isPaused || freeEnergyAvailable < 1;
 
     /**
      * Mapping between the system name and the icon name. Also used for iterating over all systems in specific order.
