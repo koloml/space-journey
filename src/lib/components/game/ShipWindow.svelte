@@ -176,7 +176,7 @@
         var(--clouds-layer) repeat-y 0 var(--clouds-shift) fixed,
         var(--space-layer) repeat-y 0 var(--shift) fixed;
 
-        transition: background-position 0.5s ease-in-out;
+        transition: background-position 0.1s ease-in-out;
     }
 
     #ship-canvas > :global(canvas) {
