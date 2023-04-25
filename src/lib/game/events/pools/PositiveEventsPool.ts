@@ -1,37 +1,59 @@
 import type {GameEventInit} from "@/lib/game/events/entities/GameEvent";
+import {specialEventsPool} from "@/lib/game/events/pools/SpecialEventsPool";
 
 export const positiveEventsPool: GameEventInit[] = [
     {
-        text: "epidemic on the ship!",
+        text: "Sir! We caught an unknown message! What to do?",
         choices: [
             {
-                text: "ignore",
+                text: "Answer",
                 run: game => {
-                    game.resources
-                        .modify('crew', -rand(5, 10));
-                    game.logger.log("ignore")
+                    game.assignEvent(specialEventsPool._strangePositiveMessage)
                 }
             },
             {
-                text: "find antidote",
+                text: "Ignore",
                 run: game => {
-                    game.resources
-                        .modify('crew', -rand(0, 5))
-                        .modify('materials', -5);
-                    game.logger.log("antidote")
+                    game.logger.log("You ignored an unknown message")
+                }
+            },
+        ]
+    },
+    {
+        text: "Sir! There's an escape pod nearby, it sends a signal for help! What to do?",
+        choices: [
+            {
+                text: "Go to help",
+                run: game => {
+                    game.resources.modify("crew", randInt(5, 10))
+                    game.logger.log("Saved people have joined you")
+                }
+            },
+            {
+                text: "Ignore",
+                run: game => {
+                    game.logger.log("You ignored the escape pod's help signal")
                 }
             }
         ]
     },
+    /*
     {
-        text: "asteroid on the way! Make a choice:",
+        text: "Description. What to do?",
         choices: [
             {
-                text: "try to dodge",
+                text: "Variant1",
                 run: game => {
-                    game.resources.modify("hull", -rand(5, 10));
+                    game.logger.log("Text1")
+                }
+            },
+            {
+                text: "Variant2",
+                run: game => {
+                    game.logger.log("Text2")
                 }
             }
         ]
-    }
+    }.
+    */
 ];
