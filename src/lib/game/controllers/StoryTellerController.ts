@@ -1,20 +1,22 @@
 import BaseController from "@/lib/game/base/BaseController";
 import type Game from "@/lib/game/Game";
 import GameEventsPool from "@/lib/game/events/entities/GameEventsPool";
-import {mainEventsPool} from "@/lib/game/events/pools/MainEventsPool";
-import type BaseZone from "@/lib/game/base/BaseZone";
+import {neutralEventsPool} from "@/lib/game/events/pools/NeutralEventsPool";
+import {negativeEventsPool} from "@/lib/game/events/pools/NegativeEventsPool";
+import {positiveEventsPool} from "@/lib/game/events/pools/PositiveEventsPool";
 
 export default class StoryTellerController extends BaseController {
     private readonly _eventPools: GameEventsPool[] = [];
     private _lastEventTick: number | null = null;
-    private _activeZone: BaseZone | null = null;
     private _nextEventTick: number | null = null;
 
     constructor(game: Game) {
         super(game);
 
         this._eventPools.push(
-            new GameEventsPool(game, mainEventsPool)
+            new GameEventsPool(game, neutralEventsPool),
+            new GameEventsPool(game, negativeEventsPool),
+            new GameEventsPool(game, positiveEventsPool),
         );
     }
 
@@ -38,8 +40,13 @@ export default class StoryTellerController extends BaseController {
 
         this._nextEventTick = null;
         this._lastEventTick = this._game.ticksPassed;
-        const event = this._eventPools[rand(0, this._eventPools.length - 1)]
+        const event = this._eventPools[randInt(0, this._eventPools.length)]
             .pickRandomEvent();
+
+        if (!event) {
+            // If there is no event out there, then just skip this tick.
+            return;
+        }
 
         this._game.assignEvent(event);
     }
@@ -47,5 +54,5 @@ export default class StoryTellerController extends BaseController {
     /**
      * Interval in ticks between events.
      */
-    static _eventsIntervalInTicks = [100, 200];
+    static _eventsIntervalInTicks = [10, 100];
 }
