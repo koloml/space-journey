@@ -100,6 +100,8 @@
     $: resultShipCanvasStyle = `${canvasBackgroundStyle} ${canvasShiftStyle} ${zoneBackgroundStyle}`;
     $: isPaused = eventInfo.decision !== null;
 
+    $: systemUpgradesDisabled = isPaused || !freeEnergyAvailable;
+
     /**
      * Mapping between the system name and the icon name. Also used for iterating over all systems in specific order.
      */
@@ -142,17 +144,17 @@
 	</div>
 	<div class="bottom-right">
 		<SystemUpgradeControl bind:value={systemUpgradesInfo.repair}
-							  bind:paused={isPaused}
+							  bind:disabled={systemUpgradesDisabled}
 							  max="2"
 							  icon="repair-unit"
 							  hint="repairs"/>
 		<SystemUpgradeControl bind:value={systemUpgradesInfo.medical}
-							  bind:paused={isPaused}
+							  bind:disabled={systemUpgradesDisabled}
 							  max="2"
 							  icon="medical-unit"
 							  hint="medical"/>
 		<SystemUpgradeControl bind:value={systemUpgradesInfo.radar}
-							  bind:paused={isPaused}
+							  bind:disabled={systemUpgradesDisabled}
 							  max="2"
 							  icon="radar"
 							  hint="radar"/>

@@ -8,11 +8,11 @@
     export let value: number;
     export let max = 2;
     export let hint: string;
-    export let paused: boolean;
+    export let disabled: boolean;
 
     let systemIconUrl = new URL(`/src/assets/images/sub-systems/${icon}.png`, import.meta.url);
 
-    $: plusIconClassList = value >= max || paused ? " disabled" : "";
+    $: plusIconClassList = value >= max || disabled ? " disabled" : "";
     $: plusIconStyle = `background-image: url(${plusIconUrl})`;
     $: barStyle = `--value: ${value}; --max: ${max}; background-image: url(${segmentIconUrl})`;
     $: systemIconClassList = value > 0 ? "active" : "";
