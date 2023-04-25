@@ -3,8 +3,6 @@ import type Game from "@/lib/game/Game";
 import GameEventsPool from "@/lib/game/events/entities/GameEventsPool";
 import {mainEventsPool} from "@/lib/game/events/pools/MainEventsPool";
 import type BaseZone from "@/lib/game/base/BaseZone";
-import AsteroidsZone from "@/lib/game/zones/AsteroidsZone";
-import {activeDecisionStore} from "@/lib/storage/ActiveDecisionStore";
 
 export default class StoryTellerController extends BaseController {
     private readonly _eventPools: GameEventsPool[] = [];
@@ -43,11 +41,7 @@ export default class StoryTellerController extends BaseController {
         const event = this._eventPools[rand(0, this._eventPools.length - 1)]
             .pickRandomEvent();
 
-        activeDecisionStore.set({
-            decision: event
-        });
-
-        this._game.pause();
+        this._game.assignEvent(event);
     }
 
     /**

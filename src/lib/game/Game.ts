@@ -16,6 +16,7 @@ import JourneyController from "@/lib/game/controllers/JourneyController";
 import ResourcesController from "@/lib/game/controllers/ResourcesController";
 import ResourcesManager from "@/lib/game/managers/ResourcesManager";
 import SystemsManager from "@/lib/game/managers/SystemsManager";
+import GameEvent, {type GameEventInit} from "@/lib/game/events/entities/GameEvent";
 
 export default class Game {
     private _logger = new Logger(this);
@@ -136,6 +137,24 @@ export default class Game {
         }
 
         this._tickInterval = setInterval(() => this._onTick(), this._tickDuration);
+    }
+
+    /**
+     * Assign an event to the active game.
+     * @param eventResolvable Event to assign. Might be an already initialized event or an event init object.
+     */
+    public assignEvent(eventResolvable: GameEventInit | GameEvent) {
+        if (!(eventResolvable instanceof GameEvent)) {
+            eventResolvable = new GameEvent(Object.assign(eventResolvable, {game: this}));
+        }
+
+        // Create after the current tick is finished.
+        requestAnimationFrame(() => {
+            activeDecisionStore.set({
+                decision: eventResolvable as GameEvent
+            });
+            this.pause();
+        });
     }
 
     public startNewGame() {
