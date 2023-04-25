@@ -15,7 +15,6 @@
     export let max = 2;
     export let icon: string;
     export let system: keyof SystemsStatusInfo;
-    export let hint: string;
     export let active: boolean = true;
     export let repairable: boolean = true;
     export let cost: Partial<ResourcesInfo> = {};
