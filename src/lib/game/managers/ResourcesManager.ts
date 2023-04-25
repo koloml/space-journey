@@ -66,11 +66,18 @@ export default class ResourcesManager extends BaseManager<ResourcesInfo> {
         const valueBefore = this.get(key);
         let changeBy = value - valueBefore;
 
-        switch (key) {
-            case "crew":
-                const medicalUpgrade = this._game.upgrades.get('medical');
-                changeBy = Math.round(changeBy / (medicalUpgrade + 1));
-                break;
+        if (changeBy < 0) {
+            switch (key) {
+                case "crew":
+                    const medicalUpgrade = this._game.upgrades.get('medical');
+                    changeBy = Math.round(changeBy / (medicalUpgrade + 1));
+                    break;
+
+                case "materials":
+                    const repairUpgrade = this._game.upgrades.get('repair');
+                    changeBy = Math.round(changeBy / (repairUpgrade + 1));
+                    break;
+            }
         }
 
         return valueBefore + changeBy;
