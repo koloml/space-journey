@@ -1,5 +1,6 @@
 <script lang="ts">
     import type GameEvent from "@/lib/game/events/entities/GameEvent";
+    import DecisionChoice from "@/lib/components/game/decisions/DecisionChoice.svelte";
 
     export let event: GameEvent;
 </script>
@@ -9,7 +10,7 @@
 		<div class="text">{event.text}</div>
 		<div class="choices">
 			{#each event.choices as choice}
-				<div class="choice" on:click={() => choice.execute()}>{choice.text}</div>
+				<DecisionChoice choice={choice}/>
 			{/each}
 		</div>
 	</div>
@@ -21,33 +22,30 @@
         font-size: 8px;
         line-height: 7px;
         margin: 1px;
-		display: flex;
-		flex-direction: column;
-		gap: 2px;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
     }
 
-	.choices {
-		display: flex;
-		gap: 2px;
-		flex-wrap: wrap;
-	}
+    .choices {
+        display: flex;
+        gap: 2px;
+        flex-wrap: wrap;
+    }
 
-	.choice {
-		flex-grow: 1;
-	}
 
-    .text, .choice {
+    .text {
         padding: 3px 2px 2px;
         position: relative;
         text-align: center;
-		border-color: var(--color-secondary);
+        border-color: var(--color-secondary);
     }
 
-	.text {
-		border-color: var(--color-primary);
-	}
+    .text {
+        border-color: var(--color-primary);
+    }
 
-    .text::before, .text::after, .choice::before, .choice::after {
+    .text::before, .text::after {
         content: "";
         display: block;
         border-color: inherit;
@@ -58,12 +56,12 @@
         height: 1px;
     }
 
-    .text::before, .choice::before {
+    .text::before {
         top: 0;
         border-width: 1px 1px 0 1px;
     }
 
-    .text::after, .choice::after {
+    .text::after {
         bottom: 0;
         border-width: 0 1px 1px 1px;
     }
