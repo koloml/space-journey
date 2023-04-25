@@ -1,4 +1,5 @@
 import type {GameEventInit} from "@/lib/game/events/entities/GameEvent";
+import {specialEventsPool} from "@/lib/game/events/pools/SpecialEventsPool";
 
 export const negativeEventsPool: GameEventInit[] = [
     {
@@ -9,11 +10,11 @@ export const negativeEventsPool: GameEventInit[] = [
                 run: game => {
                     if (rand(0, 1) >= 0.20) {
                         game.resources
-                            .modify('crew', -rand(5, 15))
+                            .modify('crew', -randInt(5, 16))
                         game.logger.log("you ignored the epidemic, people died")
                     } else {
                         game.resources
-                            .modify('crew', -rand(0, 5))
+                            .modify('crew', -randInt(1, 6))
                         game.logger.log("you ignored the epidemic, the epidemic was not too dangerous")
                     }
                 }
@@ -22,10 +23,10 @@ export const negativeEventsPool: GameEventInit[] = [
                 text: "Find antidote",
                 run: game => {
                     game.resources
-                        .modify('materials', -rand(5, 15))
+                        .modify('materials', -randInt(5, 16))
                     if (rand(0, 1) >= 0.80) {
                         game.resources
-                            .modify('crew', -rand(5, 10))
+                            .modify('crew', -randInt(5, 11))
                         game.logger.log("you found the antidote, but a lot of people have already died")
                     } else {
                         game.logger.log("you found the antidote and stop the epidemic")
@@ -43,23 +44,23 @@ export const negativeEventsPool: GameEventInit[] = [
                     if (rand(0, 1) <= (game.systems.get("thrusters").energy * 0.3)) {
                         game.logger.log("The ship avoided an asteroid impact")
                     } else {
-                        game.resources.modify("hull", -rand(5, 10))
-                        game.logger.log("The ship was hit by a small asteroid")
+                        if (game.systems.discharge("shield")) {
+                            game.logger.log("An asteroid crashed into the ship's shield")
+                        } else {
+                            game.systems.destroyRandom()
+                            game.resources.modify("hull", randInt(5, 11))
+                            game.logger.log("An asteroid is destroying one of your systems")
+                        }
                     }
                 }
             },
             {
                 text: "Block with shields",
                 run: game => {
-                    if (game.systems.get("shield").energy > 0) {
-                        game.systems.energy("shield", game.systems.get("shield").energy - 1)
-                        game.energy.update(value => {
-                            value.totalEnergy -= 1
-                            return value
-                        })
+                    if (game.systems.discharge("shield")) {
                         game.logger.log("The asteroid crashed into the ship's shield")
                     } else {
-                        game.resources.modify("hull", -rand(10, 15))
+                        game.resources.modify("hull", -randInt(5, 11))
                         game.logger.log("The ship was hit by a small asteroid")
                     }
                 }
@@ -67,7 +68,7 @@ export const negativeEventsPool: GameEventInit[] = [
         ]
     },
     {
-        text: "Overload in the generator, choose where to redirect it to neutralize it:",
+        text: "Overload in the generator system! Redirect impulse to:",
         choices: [
             {
                 text: "Farms",
@@ -93,43 +94,56 @@ export const negativeEventsPool: GameEventInit[] = [
         ]
     },
     {
-        text: "Instability in the generator. What to do?",
+        text: "A fast-moving asteroid crashes into your ship",
         choices: [
             {
-                text: "Try to fix",
+                text: "Continue",
                 run: game => {
-
+                    if (game.systems.discharge("shield")) {
+                        game.logger.log("A fast-moving asteroid crashed into the ship's shield")
+                    } else {
+                        game.systems.destroyRandom()
+                        game.resources.modify("hull", randInt(5, 11))
+                        game.logger.log("A fast-moving asteroid is destroying one of your systems")
+                    }
                 }
             }
         ]
     },
     {
-        text: "The ship enters an energy anomaly. What to do?",
+        text: "Sir! We caught an unknown message! What to do?",
         choices: [
             {
-                text: "Avoid",
+                text: "Answer",
                 run: game => {
-                    if (!!randInt()) {
-                        game.energy.update(value => {
-                            value.totalEnergy += 1
-                            return value
-                        })
-                        game.logger.log("An anomaly caused one of your energy cells to charge")
-                    } else {
-                        game.energy.update(value => {
-                            value.totalEnergy -= 1
-                            return value
-                        })
-                        game.logger.log("An anomaly caused one of your energy cells to lose its charge.")
-                    }
+                    game.assignEvent(specialEventsPool._strangeMessageNegative)
                 }
             },
             {
-                text: "Enter",
+                text: "Ignore",
                 run: game => {
-                    game.logger.log("The ship bypassed the energy anomaly")
+                    game.logger.log("You ignored an unknown message")
+                }
+            },
+        ]
+    },
+    /*
+    {
+        text: "Description. What to do?",
+        choices: [
+            {
+                text: "Variant1",
+                run: game => {
+                    game.logger.log("Text1")
+                }
+            },
+            {
+                text: "Variant2",
+                run: game => {
+                    game.logger.log("Text2")
                 }
             }
         ]
-    },
+    }.
+    */
 ];
