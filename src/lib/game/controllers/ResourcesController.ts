@@ -9,9 +9,22 @@ export default class ResourcesController extends BaseController {
     }
 
     onTick() {
+        this._checkGameOver();
         this._generateEnergy();
         this._handleFoodChanges();
         this._handleCrewChanges();
+    }
+
+    /**
+     * Check if the game is over. Game is considered over when there is no more crew or hull available.
+     * @private
+     */
+    private _checkGameOver() {
+        if (this._game.resources.get('crew') > 0 && this._game.resources.get('hull') > 0) {
+            return;
+        }
+
+        this._game.endGame(false);
     }
 
     /**

@@ -5,6 +5,7 @@ export default class JourneyController extends BaseController {
 
     onTick() {
         this._traverse();
+        this._checkGameOver();
     }
 
     /**
@@ -20,6 +21,19 @@ export default class JourneyController extends BaseController {
             values.traveled += this._currentSpeedLyPerMonth;
             return values;
         });
+    }
+
+    /**
+     * Check if the game is completed. Game is considered completed when the distance traveled is greater than the
+     * distance to the destination.
+     * @private
+     */
+    private _checkGameOver() {
+        if (this._game.journey.get('traveled') < this._game.journey.get('distance')) {
+            return;
+        }
+
+        this._game.endGame(true);
     }
 
     private _getThrustersAcceleration() {
