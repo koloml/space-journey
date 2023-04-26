@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {onMount} from "svelte";
+    import {onDestroy, onMount} from "svelte";
     import SystemEnergyControl from "@/lib/components/game/ship/bottom-left/SystemEnergyControl.svelte";
     import EnergyProductionProgress from "@/lib/components/game/ship/bottom-left/EnergyProductionProgress.svelte";
     import EnergyStorageProgress from "@/lib/components/game/ship/bottom-left/EnergyStorageProgress.svelte";
@@ -12,11 +12,11 @@
     import {type JourneyProgressInfo, journeyProgressStore} from "@/lib/storage/JourneyProgressStore";
     import {type SystemsStatusInfo, systemsStatusStore, type SystemStatus} from "@/lib/storage/SystemsStatusStore";
     import {type ActiveZoneInfo, activeZoneStore} from "@/lib/storage/ActiveZoneStore";
+    import {type ActiveDecisionInfo, activeDecisionStore} from "@/lib/storage/ActiveDecisionStore";
     import spaceLayerUrl from "@/assets/images/background/layer-1.png";
     import cloudsLayerUrl from "@/assets/images/background/layer-2.png";
     import frontStarsLayerUrl from "@/assets/images/background/layer-3.png";
-    import type {ActiveDecisionInfo} from "@/lib/storage/ActiveDecisionStore";
-    import {activeDecisionStore} from "@/lib/storage/ActiveDecisionStore";
+    import pauseIconUrl from "@/assets/images/pause.png";
 
     let systemsStatusInfo: SystemsStatusInfo;
     let systemUpgradesInfo: SubSystemsUpgradesInfo;
@@ -38,6 +38,12 @@
         )
     }
 
+    let locationHash = window.location.hash;
+
+    function refreshHash() {
+        locationHash = window.location.hash;
+    }
+
     onMount(() => {
         // LittleJS is using a global variable to store the image of the tileset. Sadly, they're not typed this variable
         // correctly in typedef file, so we need to cast it to HTMLImageElement.
@@ -55,6 +61,12 @@
         // created in DOM by the engine.
         tileImage.addEventListener('load', moveCanvasFromRoot);
         tileImage.addEventListener('error', moveCanvasFromRoot);
+
+        window.addEventListener('hashchange', refreshHash);
+    });
+
+    onDestroy(() => {
+        window.removeEventListener('hashchange', refreshHash);
     });
 
     systemsStatusStore.subscribe(storage => systemsStatusInfo = storage);
@@ -98,7 +110,7 @@
         `--front-stars-layer: url(${frontStarsLayerUrl});`;
     $: canvasShiftStyle = `--shift: ${journeyInfo.traveled.toFixed(2)}px;`;
     $: resultShipCanvasStyle = `${canvasBackgroundStyle} ${canvasShiftStyle} ${zoneBackgroundStyle}`;
-    $: isPaused = eventInfo.decision !== null;
+    $: isPaused = eventInfo.decision !== null && locationHash === '#game';
 
     $: systemUpgradesDisabled = isPaused || freeEnergyAvailable < 1;
 
@@ -158,10 +170,25 @@
 							  max="2"
 							  icon="radar"
 							  hint="radar"/>
+		{#if isPaused}
+			<img class="paused" src={pauseIconUrl} alt="Paused">
+		{/if}
 	</div>
 </div>
 
 <style>
+    @keyframes pause-blink {
+        0% {
+            opacity: 0;
+        }
+        50% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+        }
+    }
+
     #ship-canvas {
         --space-layer: unset;
         --clouds-layer: unset;
@@ -219,6 +246,14 @@
         bottom: 0;
         z-index: 1;
         display: flex;
+    }
+
+    .bottom-right .paused {
+        position: absolute;
+        bottom: 100%;
+        right: 8px;
+        margin-bottom: 16px;
+        animation: pause-blink 1s infinite;
     }
 
     .systems {
