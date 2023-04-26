@@ -110,7 +110,7 @@ export const negativeEventsPool: GameEventInit[] = [
             }
         ]
     },
-    {
+    /*{
         text: "Sir! We caught an unknown message! What to do?",
         choices: [
             {
@@ -126,7 +126,7 @@ export const negativeEventsPool: GameEventInit[] = [
                 }
             },
         ]
-    },
+    },*/
     {
         text: "Sir! There was a fire on the storage section! What to do?",
         choices: [

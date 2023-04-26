@@ -2,7 +2,7 @@ import type {GameEventInit} from "@/lib/game/events/entities/GameEvent";
 import {specialEventsPool} from "@/lib/game/events/pools/SpecialEventsPool";
 
 export const positiveEventsPool: GameEventInit[] = [
-    {
+    /*{
         text: "Sir! We caught an unknown message! What to do?",
         choices: [
             {
@@ -18,7 +18,7 @@ export const positiveEventsPool: GameEventInit[] = [
                 }
             },
         ]
-    },
+    },*/
     {
         text: "Sir! There's an escape pod nearby, it sends a signal for help! What to do?",
         choices: [
