@@ -1,4 +1,18 @@
 import type {GameEventInit} from "@/lib/game/events/entities/GameEvent";
+import type Game from "@/lib/game/Game";
+
+function executeGravityAnomaly(game: Game) {
+    if (rand() <= game.systems.get("thrusters").energy * 0.35) {
+        game.journey.update(value => {
+            value.traveled += rand(1, 3)
+            return value
+        })
+        game.logger.log("With the help of a gravity anomaly, you save a couple of light years")
+    } else {
+        game.resources.modify("hull", randInt(1, 11))
+        game.logger.log("Gravity anomaly damages your ship")
+    }
+}
 
 export const neutralEventsPool: GameEventInit[] = [
     {
@@ -31,7 +45,7 @@ export const neutralEventsPool: GameEventInit[] = [
         ]
     },
     {
-        text: "Near the wreckage of some ship.",
+        text: "Sir! Near the wreckage of some ship.",
         choices: [
             {
                 text: "Search resources",
@@ -90,7 +104,28 @@ export const neutralEventsPool: GameEventInit[] = [
                 }
             },
         ]
-    }
+    },
+    {
+        text: "Sir! The ship enters an gravity anomaly. What to do?",
+        choices: [
+            {
+                text: "Enter",
+                run: game => {
+                    executeGravityAnomaly(game)
+                }
+            },
+            {
+                text: "Avoid",
+                run: game => {
+                    if (rand(0, 1) <= (game.systems.get("thrusters").energy * 0.45)) {
+                        game.logger.log("The ship avoided an gravity anomaly")
+                    } else {
+                        executeGravityAnomaly(game)
+                    }
+                }
+            }
+        ]
+    },
     /*
     {
         text: "Description. What to do?",
@@ -108,6 +143,6 @@ export const neutralEventsPool: GameEventInit[] = [
                 }
             }
         ]
-    }.
+    },
     */
 ];
