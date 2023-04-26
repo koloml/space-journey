@@ -126,66 +126,66 @@
 </script>
 
 <div id="ship-canvas" style={resultShipCanvasStyle}>
-	<div class="top">
-		<JourneyProgress bind:value={journeyInfo.traveled} bind:max={journeyInfo.distance}/>
-		<div class="resources">
-			<ResourceAmountCounter type="health" bind:amount={resourcesInfo.hull} hint="hull"/>
-			<ResourceAmountCounter type="people" bind:amount={resourcesInfo.crew} hint="people"/>
-			<ResourceAmountCounter type="food" bind:amount={resourcesInfo.food} hint="food"/>
-			<ResourceAmountCounter type="materials" bind:amount={resourcesInfo.materials} hint="materials"/>
-		</div>
-	</div>
-	<div class="bottom-left">
-		<div class="systems">
-			{#each Array.from(systemIcons.keys()) as key}
-				<SystemEnergyControl bind:value={systemsStatusInfo[key].energy}
-									 bind:active={systemsStatusInfo[key].active}
-									 bind:repairable={systemsStatusInfo[key].repairable}
-									 bind:cost={systemsStatusInfo[key].repairCost}
-									 bind:max={systemsStatusInfo[key].maxEnergy}
-									 bind:available={freeEnergyAvailable}
-									 bind:paused={isPaused}
-									 icon={systemIcons.get(key)}
-									 system={key}/>
-			{/each}
-		</div>
-		<EnergyProductionProgress bind:value={totalEnergyInfo.energyProgress}
-								  bind:max={totalEnergyInfo.energyProgressMax}
-								  enabled={systemsStatusInfo.generator.energy > 0 && systemsStatusInfo.generator.active}/>
-		<EnergyStorageProgress bind:value={freeEnergyAvailable} max="{totalEnergyInfo.maxUnusedEnergy}"/>
-	</div>
-	<div class="bottom-right">
-		<SystemUpgradeControl bind:value={systemUpgradesInfo.repair}
-							  bind:disabled={systemUpgradesDisabled}
-							  max="2"
-							  icon="repair-unit"
-							  hint="repairs"/>
-		<SystemUpgradeControl bind:value={systemUpgradesInfo.medical}
-							  bind:disabled={systemUpgradesDisabled}
-							  max="2"
-							  icon="medical-unit"
-							  hint="medical"/>
-		<SystemUpgradeControl bind:value={systemUpgradesInfo.radar}
-							  bind:disabled={systemUpgradesDisabled}
-							  max="2"
-							  icon="radar"
-							  hint="radar"/>
-		{#if isPaused}
-			<img class="paused" src={pauseIconUrl} alt="Paused">
-		{/if}
-	</div>
+    <div class="top">
+        <JourneyProgress bind:value={journeyInfo.traveled} bind:max={journeyInfo.distance}/>
+        <div class="resources">
+            <ResourceAmountCounter type="health" bind:amount={resourcesInfo.hull} hint="hull"/>
+            <ResourceAmountCounter type="people" bind:amount={resourcesInfo.crew} hint="people"/>
+            <ResourceAmountCounter type="food" bind:amount={resourcesInfo.food} hint="food"/>
+            <ResourceAmountCounter type="materials" bind:amount={resourcesInfo.materials} hint="materials"/>
+        </div>
+    </div>
+    <div class="bottom-left">
+        <div class="systems">
+            {#each Array.from(systemIcons.keys()) as key}
+                <SystemEnergyControl bind:value={systemsStatusInfo[key].energy}
+                                     bind:active={systemsStatusInfo[key].active}
+                                     bind:repairable={systemsStatusInfo[key].repairable}
+                                     bind:cost={systemsStatusInfo[key].repairCost}
+                                     bind:max={systemsStatusInfo[key].maxEnergy}
+                                     bind:available={freeEnergyAvailable}
+                                     bind:paused={isPaused}
+                                     icon={systemIcons.get(key)}
+                                     system={key}/>
+            {/each}
+        </div>
+        <EnergyProductionProgress bind:value={totalEnergyInfo.energyProgress}
+                                  bind:max={totalEnergyInfo.energyProgressMax}
+                                  enabled={systemsStatusInfo.generator.energy > 0 && systemsStatusInfo.generator.active}/>
+        <EnergyStorageProgress bind:value={freeEnergyAvailable} max="{totalEnergyInfo.maxUnusedEnergy}"/>
+    </div>
+    <div class="bottom-right">
+        <SystemUpgradeControl bind:value={systemUpgradesInfo.repair}
+                              bind:disabled={systemUpgradesDisabled}
+                              max="2"
+                              icon="repair-unit"
+                              hint="repairs"/>
+        <SystemUpgradeControl bind:value={systemUpgradesInfo.medical}
+                              bind:disabled={systemUpgradesDisabled}
+                              max="2"
+                              icon="medical-unit"
+                              hint="medical"/>
+        <SystemUpgradeControl bind:value={systemUpgradesInfo.radar}
+                              bind:disabled={systemUpgradesDisabled}
+                              max="2"
+                              icon="radar"
+                              hint="radar"/>
+        {#if isPaused}
+            <img class="paused" src={pauseIconUrl} alt="Paused">
+        {/if}
+    </div>
 </div>
 
 <style>
     @keyframes pause-blink {
         0% {
-            opacity: 0;
+            opacity: 0.25;
         }
         50% {
             opacity: 1;
         }
         100% {
-            opacity: 0;
+            opacity: 0.25;
         }
     }
 
@@ -253,7 +253,7 @@
         bottom: 100%;
         right: 8px;
         margin-bottom: 16px;
-        animation: pause-blink 1s infinite;
+        animation: pause-blink 3s infinite;
     }
 
     .systems {

@@ -19,5 +19,6 @@
 
 	.choice:hover {
 		border-color: var(--color-primary);
+        color: var(--color-primary-bright);
 	}
 </style>

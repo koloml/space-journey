@@ -9,7 +9,7 @@ function executeGravityAnomaly(game: Game) {
         })
         game.logger.log("With the help of a gravity anomaly, you save a couple of light years")
     } else {
-        game.resources.modify("hull", randInt(1, 11))
+        game.resources.modify("hull", -randInt(1, 11))
         game.logger.log("Gravity anomaly damages your ship")
     }
 }
@@ -21,7 +21,7 @@ export const neutralEventsPool: GameEventInit[] = [
             {
                 text: "Enter",
                 run: game => {
-                    if (!!randInt()) {
+                    if (!!randInt(0, 2)) {
                         game.energy.update(value => {
                             value.totalEnergy += 1
                             return value
@@ -80,7 +80,7 @@ export const neutralEventsPool: GameEventInit[] = [
                 run: game => {
                     game.resources.modify("food", randInt(5, 11))
                     game.logger.log("You found materials at an abandoned station")
-                    if (!!randInt()) {
+                    if (!!randInt(0, 2)) {
                         game.resources.modify("crew", -randInt(1, 6))
                         game.logger.log("People died on the expedition")
                     }
@@ -91,7 +91,7 @@ export const neutralEventsPool: GameEventInit[] = [
                 run: game => {
                     game.resources.modify("materials", randInt(5, 11))
                     game.logger.log("You found materials at an abandoned station")
-                    if (!!randInt()) {
+                    if (!!randInt(0, 2)) {
                         game.resources.modify("crew", -randInt(1, 6))
                         game.logger.log("People died on the expedition")
                     }

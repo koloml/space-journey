@@ -56,7 +56,7 @@ export const positiveEventsPool: GameEventInit[] = [
         text: "Botanists bred a new culture",
         choices: [
             {
-                text: "Variant1",
+                text: "Continue",
                 run: game => {
                     game.resources.modify("food", randInt(5, 11))
                     game.logger.log("Farms produced a lot of food")
@@ -97,7 +97,7 @@ export const positiveEventsPool: GameEventInit[] = [
             {
                 text: "Continue",
                 run: game => {
-                    if (!!randInt()) {
+                    if (!!randInt(0, 2)) {
                         game.resources.modify("materials", randInt(5, 11))
                         game.logger.log("It turned out that there was more materials on the ship than was calculated")
                     } else {

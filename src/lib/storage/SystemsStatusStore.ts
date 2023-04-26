@@ -61,7 +61,7 @@ const defaultSystemStatus = (overrides: Partial<SystemStatus> = {}): SystemStatu
 export const createDefaultSystemsStatusInfo = (): SystemsStatusInfo => ({
     farms: defaultSystemStatus(),
     generator: defaultSystemStatus({
-        energy: 3,
+        energy: 2,
         maxEnergy: 3
     }),
     shield: defaultSystemStatus(),

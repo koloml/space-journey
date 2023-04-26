@@ -216,7 +216,7 @@ export const negativeEventsPool: GameEventInit[] = [
             {
                 text: "Continue",
                 run: game => {
-                    if (!!randInt()) {
+                    if (!!randInt(0, 2)) {
                         game.resources.modify("materials", -randInt(1, 11))
                         game.logger.log("Part of the materials was missing from the ship in an unknown way")
                     } else {
