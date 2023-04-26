@@ -48,7 +48,7 @@ export const negativeEventsPool: GameEventInit[] = [
                             game.logger.log("An asteroid crashed into the ship's shield")
                         } else {
                             game.systems.destroyRandom()
-                            game.resources.modify("hull", randInt(5, 11))
+                            game.resources.modify("hull", -randInt(5, 11))
                             game.logger.log("An asteroid is destroying one of your systems")
                         }
                     }
@@ -103,7 +103,7 @@ export const negativeEventsPool: GameEventInit[] = [
                         game.logger.log("A fast-moving asteroid crashed into the ship's shield")
                     } else {
                         game.systems.destroyRandom()
-                        game.resources.modify("hull", randInt(5, 11))
+                        game.resources.modify("hull", -randInt(5, 11))
                         game.logger.log("A fast-moving asteroid is destroying one of your systems")
                     }
                 }
