@@ -68,7 +68,7 @@ export default class ResourcesController extends BaseController {
 
         const farms = this._game.systems.get('farms');
         const amountOfCrew = this._game.resources.get('crew');
-        const foodConsumption = Math.round(amountOfCrew / 50);
+        const foodConsumption = Math.max(1, Math.round(amountOfCrew / 50));
         const foodProduction = +farms.active * farms.energy * 2;
 
         this._game.resources.store.update(store => {
@@ -95,15 +95,11 @@ export default class ResourcesController extends BaseController {
 
         const amountOfCrew = this._game.resources.get('crew');
 
-        if (amountOfCrew <= 0) {
-            return;
-        }
-
         const food = this._game.resources.get('food');
-        const minimumFoodRequirements = Math.round(amountOfCrew * .3);
+        const minimumFoodRequirements = Math.max(0, Math.round(amountOfCrew * .3));
 
         this._game.resources.store.update(store => {
-            if (food < minimumFoodRequirements) {
+            if (food <= minimumFoodRequirements) {
                 store.crew -= 1;
                 return store;
             }
