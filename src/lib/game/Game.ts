@@ -170,4 +170,9 @@ export default class Game {
         this._tickCounter = 0;
         this.resume();
     }
+
+    public endGame(isSuccess: boolean) {
+        this.pause();
+        location.hash = isSuccess ? '#won' : '#lost';
+    }
 }
