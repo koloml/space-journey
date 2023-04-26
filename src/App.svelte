@@ -6,6 +6,7 @@
     import MainMenuOverlay from "@/lib/components/MainMenuOverlay.svelte";
     import {getContext, onMount} from "svelte";
     import type Game from "@/lib/game/Game";
+    import GameResultsOverlay from "@/lib/components/GameResultsOverlay.svelte";
 
     /**
      * Sadly, we didn't use the routing provided by the framework, so we have to route between different scenes
@@ -62,6 +63,9 @@
 	<div slot="main">
 		{#if sanitizedView === 'main-menu'}
 			<MainMenuOverlay/>
+		{/if}
+		{#if sanitizedView === 'won' || sanitizedView === 'lost'}
+			<GameResultsOverlay/>
 		{/if}
 	</div>
 </GameContainer>
