@@ -4,7 +4,8 @@
 </script>
 
 <div class="message">
-	{timestamp} {message}
+	<span class="time">{timestamp} - </span>
+	{message}
 </div>
 
 <style>
@@ -13,5 +14,8 @@
 		padding: 1px 1px 0;
 		line-height: 5px;
 		word-break: break-word;
+	}
+	.time {
+		color: var(--color-secondary);
 	}
 </style>
