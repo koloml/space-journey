@@ -1,7 +1,11 @@
+<script lang="ts">
+    import logoUrl from "@/assets/images/game-logo.png";
+</script>
+
 <div class="main-menu">
-	<div class="game-name">GENERATION SHIP</div>
+	<img src={logoUrl} alt="Logo" class="game-logo">
 	<nav>
-		<a href="#game">Begin Journey</a>
+		<a href="#game">BEGIN JOURNEY</a>
 	</nav>
 	<div class="authors">
 		<div>
@@ -37,11 +41,15 @@
         line-height: 9px;
     }
 
-    .game-name {
-        margin-bottom: 20px;
+    .game-logo {
+        margin-bottom: 10px;
         text-shadow: 2px 0 0 var(--color-secondary), 4px 0 0 var(--color-secondary-dark);
         font-size: 20px;
     }
+
+	nav {
+		margin-bottom: 20px;
+	}
 
     nav a {
         text-decoration: unset;
@@ -58,13 +66,13 @@
     .authors {
         bottom: 0;
         left: 2px;
-		text-align: left;
+        text-align: left;
     }
 
     .game-jam {
         bottom: 0;
         right: 2px;
-		text-align: right;
+        text-align: right;
     }
 
     .authors a, .game-jam a {
