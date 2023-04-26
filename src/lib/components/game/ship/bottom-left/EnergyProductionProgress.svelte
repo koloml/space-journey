@@ -51,5 +51,6 @@
         bottom: 0;
         width: 0;
         background-color: var(--color-primary);
+		min-width: 1px;
     }
 </style>
