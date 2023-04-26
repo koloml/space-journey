@@ -127,6 +127,117 @@ export const negativeEventsPool: GameEventInit[] = [
             },
         ]
     },
+    {
+        text: "Sir! There was a fire on the storage section! What to do?",
+        choices: [
+            {
+                text: "Save materials",
+                run: game => {
+                    game.resources
+                        .modify("materials", -randInt(1, 6))
+                        .modify("crew", -randInt(1, 3))
+                    game.logger.log("Fire on the ship! The crew saved some of the resources, but someone died")
+                }
+            },
+            {
+                text: "Save crew",
+                run: game => {
+                    game.resources
+                        .modify("materials", -randInt(5, 11))
+                    game.logger.log("Fire on the ship! You have lost some of the materials")
+                }
+            }
+        ]
+    },
+    {
+        text: "Detectors report a burst of radiation coming from a nearby star",
+        choices: [
+            {
+                text: "Continue",
+                run: game => {
+                    if (game.systems.get("shield").energy > 0) {
+                        game.logger.log("Radiation burst is blocked by your shield")
+                    } else {
+                        game.resources
+                            .modify("crew", -randInt(1, 16))
+                        game.logger.log("People are dying from radiation sickness caused by a burst of radiation")
+                    }
+                }
+            }
+        ]
+    },
+    {
+        text: "A short circuit has occurred in one of your systems",
+        choices: [
+            {
+                text: "Continue",
+                run: game => {
+                    switch (randInt(1, 5)) {
+                        case 1: {
+                            if (game.systems.get("farms").energy > 0) {
+                                game.logger.log("A short circuit occurred on the farms, you lost one energy cell")
+                            } else {
+                                game.logger.log("A short circuit occurred on the farms, but nothing was damaged as the farms weren't powered")
+                            }
+                            break
+                        }
+                        case 2: {
+                            if (game.systems.get("shield").energy > 0) {
+                                game.logger.log("A short circuit occurred in the shield system, you lost one energy cell")
+                            } else {
+                                game.logger.log("A short circuit occurred in the shield system, but nothing was damaged as the shields weren't powered")
+                            }
+                            break
+                        }
+                        case 3: {
+                            if (game.systems.get("thrusters").energy > 0) {
+                                game.logger.log("A short circuit occurred on the thrusters, you lost one energy cell")
+                            } else {
+                                game.logger.log("A short circuit occurred on the thrusters, but nothing was damaged as the thrusters weren't powered")
+                            }
+                            break
+                        }
+                        case 4: {
+                            if (game.systems.get("generator").energy > 0) {
+                                game.logger.log("A short circuit occurred in the generator, you lost one energy cell")
+                            } else {
+                                game.logger.log("A short circuit occurred in the generator, but nothing was damaged as the generator weren't powered")
+                            }
+                            break
+                        }
+                    }
+                }
+            }
+        ]
+    },
+    {
+        text: "The ship mysteriously lost some of the resources",
+        choices: [
+            {
+                text: "Continue",
+                run: game => {
+                    if (!!randInt()) {
+                        game.resources.modify("materials", -randInt(1, 11))
+                        game.logger.log("Part of the materials was missing from the ship in an unknown way")
+                    } else {
+                        game.resources.modify("food", -randInt(1, 11))
+                        game.logger.log("Part of the food was missing from the ship in an unknown way")
+                    }
+                }
+            }
+        ]
+    },
+    /*{
+        text: "There was a short circuit in the energy collector, one energy cell is lost",
+        choices: [
+            {
+                text: "Variant1",
+                run: game => {
+                    game.logger.log("There was a short circuit in the energy collector, one energy cell is lost")
+                }
+            }
+        ]
+    },*/
     /*
     {
         text: "Description. What to do?",
@@ -144,6 +255,6 @@ export const negativeEventsPool: GameEventInit[] = [
                 }
             }
         ]
-    }.
+    },
     */
 ];
