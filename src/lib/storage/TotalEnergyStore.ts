@@ -11,7 +11,7 @@ export const createDefaultTotalEnergyInfo = (): TotalEnergyInfo => ({
     totalEnergy: 8,
     maxUnusedEnergy: 16,
     energyProgress: 0,
-    energyProgressMax: 300
+    energyProgressMax: 600
 });
 
 export const totalEnergyStore = writable<TotalEnergyInfo>(
