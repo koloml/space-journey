@@ -15,6 +15,8 @@
     import spaceLayerUrl from "@/assets/images/background/layer-1.png";
     import cloudsLayerUrl from "@/assets/images/background/layer-2.png";
     import frontStarsLayerUrl from "@/assets/images/background/layer-3.png";
+    import type {ActiveDecisionInfo} from "@/lib/storage/ActiveDecisionStore";
+    import {activeDecisionStore} from "@/lib/storage/ActiveDecisionStore";
 
     let systemsStatusInfo: SystemsStatusInfo;
     let systemUpgradesInfo: SubSystemsUpgradesInfo;
@@ -22,6 +24,7 @@
     let resourcesInfo: ResourcesInfo;
     let journeyInfo: JourneyProgressInfo;
     let zoneInfo: ActiveZoneInfo;
+    let eventInfo: ActiveDecisionInfo;
 
     /**
      * We're using the LittleJS engine which is always creates a canvas element in the root of the document. We need to
@@ -60,6 +63,7 @@
     resourcesStore.subscribe(storage => resourcesInfo = storage);
     journeyProgressStore.subscribe(storage => journeyInfo = storage);
     activeZoneStore.subscribe(storage => zoneInfo = storage);
+    activeDecisionStore.subscribe(storage => eventInfo = storage);
 
     // Calculating the energy consumption & total amount of available energy
     $: totalEnergyUsedByUpgrades = Object
@@ -94,6 +98,9 @@
         `--front-stars-layer: url(${frontStarsLayerUrl});`;
     $: canvasShiftStyle = `--shift: ${journeyInfo.traveled.toFixed(2)}px;`;
     $: resultShipCanvasStyle = `${canvasBackgroundStyle} ${canvasShiftStyle} ${zoneBackgroundStyle}`;
+    $: isPaused = eventInfo.decision !== null;
+
+    $: systemUpgradesDisabled = isPaused || freeEnergyAvailable < 1;
 
     /**
      * Mapping between the system name and the icon name. Also used for iterating over all systems in specific order.
@@ -125,6 +132,7 @@
 									 bind:cost={systemsStatusInfo[key].repairCost}
 									 bind:max={systemsStatusInfo[key].maxEnergy}
 									 bind:available={freeEnergyAvailable}
+									 bind:paused={isPaused}
 									 icon={systemIcons.get(key)}
 									 system={key}/>
 			{/each}
@@ -135,9 +143,21 @@
 		<EnergyStorageProgress bind:value={freeEnergyAvailable} max="{totalEnergyInfo.maxUnusedEnergy}"/>
 	</div>
 	<div class="bottom-right">
-		<SystemUpgradeControl bind:value={systemUpgradesInfo.repair} max="2" icon="repair-unit" hint="repairs"/>
-		<SystemUpgradeControl bind:value={systemUpgradesInfo.medical} max="2" icon="medical-unit" hint="medical"/>
-		<SystemUpgradeControl bind:value={systemUpgradesInfo.radar} max="2" icon="radar" hint="radar"/>
+		<SystemUpgradeControl bind:value={systemUpgradesInfo.repair}
+							  bind:disabled={systemUpgradesDisabled}
+							  max="2"
+							  icon="repair-unit"
+							  hint="repairs"/>
+		<SystemUpgradeControl bind:value={systemUpgradesInfo.medical}
+							  bind:disabled={systemUpgradesDisabled}
+							  max="2"
+							  icon="medical-unit"
+							  hint="medical"/>
+		<SystemUpgradeControl bind:value={systemUpgradesInfo.radar}
+							  bind:disabled={systemUpgradesDisabled}
+							  max="2"
+							  icon="radar"
+							  hint="radar"/>
 	</div>
 </div>
 
@@ -158,7 +178,7 @@
         var(--clouds-layer) repeat-y 0 var(--clouds-shift) fixed,
         var(--space-layer) repeat-y 0 var(--shift) fixed;
 
-        transition: background-position 0.5s ease-in-out;
+        transition: background-position 0.1s ease-in-out;
     }
 
     #ship-canvas > :global(canvas) {

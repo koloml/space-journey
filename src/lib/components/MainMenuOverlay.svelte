@@ -1,7 +1,7 @@
 <div class="main-menu">
 	<div class="game-name">GENERATION SHIP</div>
 	<nav>
-		<a href="#game">Start</a>
+		<a href="#game">Begin Journey</a>
 	</nav>
 	<div class="authors">
 		<div>
@@ -57,13 +57,13 @@
 
     .authors {
         bottom: 0;
-        left: 0;
+        left: 2px;
 		text-align: left;
     }
 
     .game-jam {
         bottom: 0;
-        right: 0;
+        right: 2px;
 		text-align: right;
     }
 

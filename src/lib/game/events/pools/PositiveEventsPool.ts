@@ -8,7 +8,7 @@ export const positiveEventsPool: GameEventInit[] = [
             {
                 text: "Answer",
                 run: game => {
-                    game.assignEvent(specialEventsPool._strangePositiveMessage)
+                    game.assignEvent(specialEventsPool._strangeMessagePositive)
                 }
             },
             {

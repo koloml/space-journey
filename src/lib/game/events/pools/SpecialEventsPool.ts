@@ -1,6 +1,15 @@
 import type {GameEventInit} from "@/lib/game/events/entities/GameEvent";
 
-export const specialEventsPool: Record<string, GameEventInit> = {
+/**
+ * Helper type to make sure that all keys of the specialEventsPool are typed correctly. This will prevent typos and
+ * other errors when trying to access the pool events.
+ */
+type SpecialEventsKeys = {
+    _strangeMessagePositive: null
+    _strangeMessageNegative: null
+};
+
+export const specialEventsPool: Record<keyof SpecialEventsKeys, GameEventInit> = {
     _strangeMessagePositive: {
         text: "Text.",
         choices: [

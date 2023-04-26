@@ -7,11 +7,12 @@
     export let icon: string;
     export let value: number;
     export let max = 2;
-	export let hint: string;
+    export let hint: string;
+    export let disabled: boolean;
 
     let systemIconUrl = new URL(`/src/assets/images/sub-systems/${icon}.png`, import.meta.url);
 
-    $: plusIconClassList = value >= max ? " disabled" : "";
+    $: plusIconClassList = value >= max || disabled ? " disabled" : "";
     $: plusIconStyle = `background-image: url(${plusIconUrl})`;
     $: barStyle = `--value: ${value}; --max: ${max}; background-image: url(${segmentIconUrl})`;
     $: systemIconClassList = value > 0 ? "active" : "";
@@ -91,7 +92,7 @@
         height: calc(3px * var(--value) - 1px);
     }
 
-	.control + :global(.tooltip) {
-		width: max-content;
-	}
+    .control + :global(.tooltip) {
+        width: max-content;
+    }
 </style>

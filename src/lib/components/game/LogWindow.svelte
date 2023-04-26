@@ -17,11 +17,13 @@
 
 <style>
     .logs {
-        padding: 1px;
         font-family: LazyFox7, serif;
-		font-size: 8px;
+		font-size: 5px;
 		display: flex;
 		flex-direction: column-reverse;
-		gap: 1px;
     }
+
+	.logs > :global(.message:nth-child(2n)) {
+		background-color: var(--color-secondary-dark);
+	}
 </style>

@@ -51,7 +51,9 @@ const defaultSystemStatus = (overrides: Partial<SystemStatus> = {}): SystemStatu
         active: true,
         energy: 1,
         maxEnergy: 2,
-        repairCost: {},
+        repairCost: {
+            materials: 5
+        },
         repairable: true
     }, overrides);
 }
@@ -59,6 +61,7 @@ const defaultSystemStatus = (overrides: Partial<SystemStatus> = {}): SystemStatu
 export const createDefaultSystemsStatusInfo = (): SystemsStatusInfo => ({
     farms: defaultSystemStatus(),
     generator: defaultSystemStatus({
+        energy: 3,
         maxEnergy: 3
     }),
     shield: defaultSystemStatus(),
