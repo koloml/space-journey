@@ -1,8 +1,8 @@
 import BaseController from "@/lib/game/base/BaseController";
 import type Game from "@/lib/game/Game";
 import GameEventsPool from "@/lib/game/events/entities/GameEventsPool";
-import {neutralEventsPool} from "@/lib/game/events/pools/NeutralEventsPool";
 import {negativeEventsPool} from "@/lib/game/events/pools/NegativeEventsPool";
+import {neutralEventsPool} from "@/lib/game/events/pools/NeutralEventsPool";
 import {positiveEventsPool} from "@/lib/game/events/pools/PositiveEventsPool";
 
 export default class StoryTellerController extends BaseController {
@@ -14,8 +14,8 @@ export default class StoryTellerController extends BaseController {
         super(game);
 
         this._eventPools.push(
-            new GameEventsPool(game, neutralEventsPool),
             new GameEventsPool(game, negativeEventsPool),
+            new GameEventsPool(game, neutralEventsPool),
             new GameEventsPool(game, positiveEventsPool),
         );
     }

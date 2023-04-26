@@ -68,7 +68,7 @@ export const positiveEventsPool: GameEventInit[] = [
         text: "After calibrating the navigation systems, distance to the planet turned out to be a little shorter",
         choices: [
             {
-                text: "Great!",
+                text: "Continue",
                 run: game => {
                     game.journey.update(value => {
                         value.distance -= rand(1, 5)
