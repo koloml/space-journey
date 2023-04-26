@@ -5,16 +5,16 @@
 
     let locationHash = window.location.hash;
 
-    function refreshLocation() {
-        window.location.hash = locationHash;
+    function saveLocationFromWindow() {
+        locationHash = window.location.hash;
     }
 
     onMount(() => {
-        window.addEventListener('hashchange', refreshLocation);
+        window.addEventListener('hashchange', saveLocationFromWindow);
     });
 
     onDestroy(() => {
-        window.removeEventListener('hashchange', refreshLocation);
+        window.removeEventListener('hashchange', saveLocationFromWindow);
     });
 
     $: sanitizedLocation = locationHash.replace('#', '');
