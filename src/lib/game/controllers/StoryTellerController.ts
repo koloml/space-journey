@@ -54,5 +54,5 @@ export default class StoryTellerController extends BaseController {
     /**
      * Interval in ticks between events.
      */
-    static _eventsIntervalInTicks = [100, 150];
+    static _eventsIntervalInTicks = [60, 100];
 }

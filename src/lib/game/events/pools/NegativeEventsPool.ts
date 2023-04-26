@@ -134,8 +134,8 @@ export const negativeEventsPool: GameEventInit[] = [
                 text: "Save materials",
                 run: game => {
                     game.resources
-                        .modify("materials", -randInt(1, 6))
-                        .modify("crew", -randInt(1, 3))
+                        .modify("materials", -randInt(3, 11))
+                        .modify("crew", -randInt(3, 11))
                     game.logger.log("Fire on the ship! The crew saved some of the resources, but someone died")
                 }
             },
@@ -143,7 +143,7 @@ export const negativeEventsPool: GameEventInit[] = [
                 text: "Save crew",
                 run: game => {
                     game.resources
-                        .modify("materials", -randInt(5, 11))
+                        .modify("materials", -randInt(8, 16))
                     game.logger.log("Fire on the ship! You have lost some of the materials")
                 }
             }
@@ -159,7 +159,7 @@ export const negativeEventsPool: GameEventInit[] = [
                         game.logger.log("Radiation burst is blocked by your shield")
                     } else {
                         game.resources
-                            .modify("crew", -randInt(1, 16))
+                            .modify("crew", -randInt(5, 16))
                         game.logger.log("People are dying from radiation sickness caused by a burst of radiation")
                     }
                 }
@@ -217,10 +217,10 @@ export const negativeEventsPool: GameEventInit[] = [
                 text: "Continue",
                 run: game => {
                     if (!!randInt(0, 2)) {
-                        game.resources.modify("materials", -randInt(1, 11))
+                        game.resources.modify("materials", -randInt(1, 16))
                         game.logger.log("Part of the materials was missing from the ship in an unknown way")
                     } else {
-                        game.resources.modify("food", -randInt(1, 11))
+                        game.resources.modify("food", -randInt(1, 16))
                         game.logger.log("Part of the food was missing from the ship in an unknown way")
                     }
                 }

@@ -126,6 +126,31 @@ export const neutralEventsPool: GameEventInit[] = [
             }
         ]
     },
+    {
+        text: "Sir! Scanners have detected a nearby planetoid rich in materials. What to do?",
+        choices: [
+            {
+                text: "Send a mining team",
+                run: game => {
+                    if (!!randInt(0, 2)) {
+                        game.resources
+                            .modify("materials", -randInt(5,16))
+                        game.logger.log("Mining team mined materials on a planetoid")
+                    } else {
+                        game.resources
+                            .modify("crew", -randInt(3,6))
+                        game.logger.log("An incident occurred during mining, we lost the mining team")
+                    }
+                }
+            },
+            {
+                text: "Ignore",
+                run: game => {
+                    game.logger.log("You fly past a planetoid")
+                }
+            }
+        ]
+    },
     /*
     {
         text: "Description. What to do?",
