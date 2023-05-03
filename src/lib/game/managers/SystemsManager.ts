@@ -79,7 +79,7 @@ export default class SystemsManager<Key extends keyof SystemsStatusInfo> extends
      * @return True if there was enough energy to discharge, false otherwise. Energy will be discharged anyway.
      */
     public discharge(key: Key, amount = 1) {
-        const hadEnoughEnergy = this.get(key).energy < amount;
+        const hadEnoughEnergy = this.get(key).energy >= amount;
         const amountToDischarge = Math.min(this.get(key).energy, amount);
 
         this.energy(key, this.get(key).energy - amountToDischarge);

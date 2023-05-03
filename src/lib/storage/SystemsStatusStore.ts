@@ -50,7 +50,7 @@ const defaultSystemStatus = (overrides: Partial<SystemStatus> = {}): SystemStatu
     return Object.assign({
         active: true,
         energy: 1,
-        maxEnergy: 2,
+        maxEnergy: 3,
         repairCost: {
             materials: 5
         },
@@ -60,13 +60,10 @@ const defaultSystemStatus = (overrides: Partial<SystemStatus> = {}): SystemStatu
 
 export const createDefaultSystemsStatusInfo = (): SystemsStatusInfo => ({
     farms: defaultSystemStatus(),
-    generator: defaultSystemStatus({
-        energy: 3,
-        maxEnergy: 3
-    }),
     shield: defaultSystemStatus(),
-    thrusters: defaultSystemStatus({
-        maxEnergy: 3
+    thrusters: defaultSystemStatus(),
+    generator: defaultSystemStatus({
+        energy: 2
     }),
 })
 

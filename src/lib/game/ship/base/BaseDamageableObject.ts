@@ -54,9 +54,10 @@ export default class BaseDamageableObject extends GameObject {
             return;
         }
 
-        const offset = Math.floor((1 - Math.min(this._shipHull, 100) / 100) * this._maxDamageTileIndex);
+        let offset = Math.floor((1 - Math.min(this._shipHull, 100) / 100) * this._maxDamageTileIndex);
+        if (this._shipHull < 100 && offset == 0)
+            offset = 1;
 
         this.tileIndex = this._baseTileIndex + offset;
     }
-
 }

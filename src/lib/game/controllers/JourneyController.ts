@@ -45,6 +45,6 @@ export default class JourneyController extends BaseController {
     }
 
     private static readonly _thrustersAcceleration = 0.001
-    private static readonly _spaceResistance = 0.0005;
+    private static readonly _spaceResistance = 0.0006;
     private static readonly _maxSpeed = 0.05;
 }
